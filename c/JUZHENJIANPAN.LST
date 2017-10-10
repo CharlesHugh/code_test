@@ -1,0 +1,189 @@
+C51 COMPILER V6.23a  JUZHENJIANPAN                                                         10/01/2015 17:05:52 PAGE 1   
+
+
+C51 COMPILER V6.23a, COMPILATION OF MODULE JUZHENJIANPAN
+OBJECT MODULE PLACED IN \\PSF\HOME\DOCU~CQ0\MY-TEST\JUZHENJIANPAN.OBJ
+COMPILER INVOKED BY: C:\COMP51\C51.EXE \\PSF\HOME\DOCU~CQ0\MY-TEST\JUZHENJIANPAN.C DB SB OE
+
+stmt level    source
+
+   1          /******************************************************************************
+   2          * 实验名                           : 矩阵键盘实验
+   3          * 使用的IO           : 数码管使用P0,键盘使用P3.0、P3.1、P3.2、P3.3
+   4          * 实验效果       : 按矩阵键盘分别显示在数码管上面显示十六进制的0到F。
+   5          *       注意                                     ：
+   6          ******************************************************************************/
+   7          #include<reg51.h>
+   8          
+   9          #define GPIO_DIG P0
+  10          #define GPIO_KEY P1
+  11          
+  12          sbit LSA=P2^2;
+  13          sbit LSB=P2^3;
+  14          sbit LSC=P2^4;
+  15          
+  16          unsigned char code DIG_CODE[17]={
+  17          0x3f,0x06,0x5b,0x4f,0x66,0x6d,0x7d,0x07,
+  18          0x7f,0x6f,0x77,0x7c,0x39,0x5e,0x79,0x71};
+  19          //0、1、2、3、4、5、6、7、8、9、A、b、C、d、E、F的显示码
+  20          unsigned char KeyValue;
+  21          //用来存放读取到的键值
+  22          void Delay10ms();   //延时10ms
+  23          void KeyDown();          //检测按键函数
+  24           
+  25          /*****************************************************************************
+  26          * 函数名         : main
+  27          * 函数功能                 : 主函数
+  28          * 输入           : 无
+  29          * 输出           : 无
+  30          ******************************************************************************/
+  31          void main(void)
+  32          {
+  33   1              LSA=0; //给一个数码管提供位选
+  34   1              LSB=0;
+  35   1              LSC=0;
+  36   1              while(1)
+  37   1              {
+  38   2                      KeyDown();
+  39   2                      GPIO_DIG=DIG_CODE[KeyValue];
+  40   2              }                               
+  41   1      }
+  42          /******************************************************************************
+  43          * 函数名         : KeyDown
+  44          * 函数功能                 : 检测有按键按下并读取键值
+  45          * 输入           : 无
+  46          * 输出           : 无
+  47          ******************************************************************************/
+  48          void KeyDown(void)
+  49          {
+  50   1              char a;
+  51   1              GPIO_KEY=0x0f;
+  52   1              if(GPIO_KEY!=0x0f)
+  53   1              {
+  54   2                      Delay10ms();
+  55   2                      if(GPIO_KEY!=0x0f)
+C51 COMPILER V6.23a  JUZHENJIANPAN                                                         10/01/2015 17:05:52 PAGE 2   
+
+  56   2                      {
+  57   3                              
+  58   3                              //测试列
+  59   3                              GPIO_KEY=0X0F;
+  60   3                              switch(GPIO_KEY)
+  61   3                              {
+  62   4                                      case(0X07):     KeyValue=0;break;
+  63   4                                      case(0X0b):     KeyValue=1;break;
+  64   4                                      case(0X0d): KeyValue=2;break;
+  65   4                                      case(0X0e):     KeyValue=3;break;
+  66   4      //                              default:        KeyValue=17;    //检测出错回复17意思是把数码管全灭掉。
+  67   4                              }
+  68   3                              //测试行
+  69   3                              GPIO_KEY=0XF0;
+  70   3                              switch(GPIO_KEY)
+  71   3                              {
+  72   4                                      case(0X70):     KeyValue=KeyValue;break;
+  73   4                                      case(0Xb0):     KeyValue=KeyValue+4;break;
+  74   4                                      case(0Xd0): KeyValue=KeyValue+8;break;
+  75   4                                      case(0Xe0):     KeyValue=KeyValue+12;break;
+  76   4      //                              default:        KeyValue=17;
+  77   4                              }
+  78   3                              while((a<50)&&(GPIO_KEY!=0xf0))  //检测按键松手检测
+  79   3                              {
+  80   4                                      Delay10ms();
+  81   4                                      a++;
+  82   4                              }
+  83   3                              a=0;
+  84   3                      }
+  85   2              }
+  86   1      }
+  87          /******************************************************************************
+  88          * 函数名         : Delay10ms
+  89          * 函数功能                 : 延时函数，延时10ms
+  90          * 输入           : 无
+  91          * 输出           : 无
+  92          ******************************************************************************/
+  93          void Delay10ms(void)   //误差 0us
+  94          {
+  95   1          unsigned char a,b,c;
+  96   1          for(c=1;c>0;c--)
+  97   1              for(b=38;b>0;b--)
+  98   1                  for(a=130;a>0;a--);
+  99   1      }
+C51 COMPILER V6.23a  JUZHENJIANPAN                                                         10/01/2015 17:05:52 PAGE 3   
+
+NAME                                    CLASS   MSPACE  TYPE    OFFSET  SIZE
+====                                    =====   ======  ====    ======  ====
+
+
+P0 . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0080H  1
+P1 . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0090H  1
+P2 . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00A0H  1
+T0 . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B4H  1
+AC . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D6H  1
+T1 . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B5H  1
+EA . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00AFH  1
+RD . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B7H  1
+ES . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00ACH  1
+RI . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0098H  1
+INT0 . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B2H  1
+CY . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D7H  1
+TI . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0099H  1
+INT1 . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B3H  1
+PS . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00BCH  1
+OV . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D2H  1
+main . . . . . . . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+WR . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B6H  1
+KeyValue . . . . . . . . . . . . . . .  PUBLIC   DATA   U_CHAR   0000H  1
+Delay10ms. . . . . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+  a. . . . . . . . . . . . . . . . . .  * REG *  DATA   U_CHAR   0005H  1
+  b. . . . . . . . . . . . . . . . . .  * REG *  DATA   U_CHAR   0006H  1
+  c. . . . . . . . . . . . . . . . . .  * REG *  DATA   U_CHAR   0007H  1
+IE0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0089H  1
+IE1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008BH  1
+KeyDown. . . . . . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+  a. . . . . . . . . . . . . . . . . .  AUTO     DATA   CHAR     0000H  1
+ET0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00A9H  1
+ET1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00ABH  1
+TF0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008DH  1
+TF1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008FH  1
+RB8. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009AH  1
+EX0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00A8H  1
+IT0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0088H  1
+TB8. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009BH  1
+EX1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00AAH  1
+IT1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008AH  1
+P. . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D0H  1
+SM0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009FH  1
+DIG_CODE . . . . . . . . . . . . . . .  PUBLIC   CODE   ARRAY    0000H  17
+SM1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009EH  1
+SM2. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009DH  1
+PT0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B9H  1
+PT1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00BBH  1
+RS0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D3H  1
+TR0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008CH  1
+RS1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D4H  1
+TR1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008EH  1
+PX0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B8H  1
+PX1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00BAH  1
+LSA. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00A2H  1
+LSB. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00A3H  1
+LSC. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00A4H  1
+REN. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009CH  1
+RXD. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B0H  1
+TXD. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B1H  1
+F0 . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D5H  1
+
+C51 COMPILER V6.23a  JUZHENJIANPAN                                                         10/01/2015 17:05:52 PAGE 4   
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    156    ----
+   CONSTANT SIZE    =     17    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      1       1
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

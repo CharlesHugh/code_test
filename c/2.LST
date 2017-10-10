@@ -1,0 +1,392 @@
+C51 COMPILER V6.23a  2                                                                     09/28/2015 23:58:08 PAGE 1   
+
+
+C51 COMPILER V6.23a, COMPILATION OF MODULE 2
+OBJECT MODULE PLACED IN \\PSF\HOME\DOCU~CQ0\MY-TEST\2.OBJ
+COMPILER INVOKED BY: C:\COMP51\C51.EXE \\PSF\HOME\DOCU~CQ0\MY-TEST\2.C DB SB OE
+
+stmt level    source
+
+   1          /*说明************************************************************************** 
+   2          曲谱存贮格式 unsigned char code MusicName{音高，音长，音高，音长...., 0,0}; 末尾:0,0 表示结束(Important) 
+   3          音高由三位数字组成： 
+   4          个位是表示 1~7 这七个音符 
+   5          十位是表示音符所在的音区:1-低音，2-中音，3-高音; 
+   6          百位表示这个音符是否要升半音: 0-不升，1-升半音。 
+   7          音长最多由三位数字组成： 
+   8          个位表示音符的时值，其对应关系是： 
+   9          |数值(n): |0 |1 |2 |3 | 4 | 5 | 6 
+  10          |几分音符: |1 |2 |4 |8 |16 |32 |64 音符=2^n 
+  11          十位表示音符的演奏效果(0-2): 0-普通，1-连音，2-顿音 
+  12          百位是符点位: 0-无符点，1-有符点 
+  13          调用演奏子程序的格式 
+  14          Play(乐曲名,调号,升降八度,演奏速度); 
+  15          |乐曲名 : 要播放的乐曲指针,结尾以(0,0)结束; 
+  16          |调号(0-11) : 是指乐曲升多少个半音演奏; 
+  17          |升降八度(1-3) : 1:降八度, 2:不升不降, 3:升八度; 
+  18          |演奏速度(1-12000): 值越大速度越快; 
+  19          ***************************************************************************/ 
+  20          #ifndef __SOUNDPLAY_H_REVISION_FIRST__ 
+  21          #define __SOUNDPLAY_H_REVISION_FIRST__ 
+  22          #include <REG51.H> 
+  23          //************************************************************************** 
+  24          #define SYSTEM_OSC 11059200//12000000 //定义晶振频率12000000HZ 
+  25          #define SOUND_SPACE 4/5 //定义普通音符演奏的长度分率,//每4分音符间隔 
+  26          sbit BeepIO = P1^5; //定义输出管脚 
+  27          unsigned int code FreTab[12] = { 262,277,294,311,330,349,369,392,415,440,466,494 }; //原始频率表 
+  28          unsigned char code SignTab[7] = { 0,2,4,5,7,9,11 }; //1~7在频率表中的位置 
+  29          unsigned char code LengthTab[7]= { 1,2,4,8,16,32,64 }; 
+  30          unsigned char Sound_Temp_TH0,Sound_Temp_TL0; //音符定时器初值暂存 
+  31          unsigned char Sound_Temp_TH1,Sound_Temp_TL1; //音长定时器初值暂存 
+  32          //************************************************************************** 
+  33          void InitialSound(void) 
+  34          { 
+  35   1      BeepIO = 1; 
+  36   1      Sound_Temp_TH1 = (65535-(1/1200)*SYSTEM_OSC)/256; // 计算TL1应装入的初值 (10ms的初装值) 
+  37   1      Sound_Temp_TL1 = (65535-(1/1200)*SYSTEM_OSC)%256; // 计算TH1应装入的初值 
+  38   1      TH1 = Sound_Temp_TH1; 
+  39   1      TL1 = Sound_Temp_TL1; 
+  40   1      TMOD |= 0x11; 
+  41   1      ET0 = 1; 
+  42   1      ET1 = 0; 
+  43   1      TR0 = 0; 
+  44   1      TR1 = 0; 
+  45   1      EA = 1; 
+  46   1      } 
+  47          void BeepTimer0(void) interrupt 1 //音符发生中断 
+  48          { 
+  49   1      BeepIO = !BeepIO; 
+  50   1      TH0 = Sound_Temp_TH0; 
+  51   1      TL0 = Sound_Temp_TL0; 
+  52   1      } 
+  53          //************************************************************************** 
+  54          void Play(unsigned char *Sound,unsigned char Signature,unsigned Octachord,unsigned int Speed) 
+  55          { 
+C51 COMPILER V6.23a  2                                                                     09/28/2015 23:58:08 PAGE 2   
+
+  56   1      unsigned int NewFreTab[12]; //新的频率表 
+  57   1      unsigned char i,j; 
+  58   1      unsigned int Point,LDiv,LDiv0,LDiv1,LDiv2,LDiv4,CurrentFre,Temp_T,SoundLength; 
+  59   1      unsigned char Tone,Length,SL,SH,SM,SLen,XG,FD; 
+  60   1      for(i=0;i<12;i++) // 根据调号及升降八度来生成新的频率表 
+  61   1      { 
+  62   2      j = i + Signature; 
+  63   2      if(j > 11) 
+  64   2      { 
+  65   3      j = j-12; 
+  66   3      NewFreTab[i] = FreTab[j]*2; 
+  67   3      } 
+  68   2      else 
+  69   2      NewFreTab[i] = FreTab[j]; 
+  70   2      if(Octachord == 1) 
+  71   2      NewFreTab[i]>>=2; 
+  72   2      else if(Octachord == 3) 
+  73   2      NewFreTab[i]<<=2; 
+  74   2      } 
+  75   1      SoundLength = 0; 
+  76   1      while(Sound[SoundLength] != 0x00) //计算歌曲长度 
+  77   1      { 
+  78   2      SoundLength+=2; 
+  79   2      } 
+  80   1      Point = 0; 
+  81   1      Tone = Sound[Point]; 
+  82   1      Length = Sound[Point+1]; // 读出第一个音符和它时时值 
+  83   1      LDiv0 = 12000/Speed; // 算出1分音符的长度(几个10ms) 
+  84   1      LDiv4 = LDiv0/4; // 算出4分音符的长度 
+  85   1      LDiv4 = LDiv4-LDiv4*SOUND_SPACE; // 普通音最长间隔标准 
+  86   1      TR0 = 0; 
+  87   1      TR1 = 1; 
+  88   1      while(Point < SoundLength) 
+  89   1      { 
+  90   2      SL=Tone%10; //计算出音符 
+  91   2      SM=Tone/10%10; //计算出高低音 
+  92   2      SH=Tone/100; //计算出是否升半 
+  93   2      CurrentFre = NewFreTab[SignTab[SL-1]+SH]; //查出对应音符的频率 
+  94   2      if(SL!=0) 
+  95   2      { 
+  96   3      if (SM==1) CurrentFre >>= 2; //低音 
+  97   3      if (SM==3) CurrentFre <<= 2; //高音 
+  98   3      Temp_T = 65536-(50000/CurrentFre)*10/(12000000/SYSTEM_OSC);//计算计数器初值 
+  99   3      Sound_Temp_TH0 = Temp_T/256; 
+ 100   3      Sound_Temp_TL0 = Temp_T%256; 
+ 101   3      TH0 = Sound_Temp_TH0; 
+ 102   3      TL0 = Sound_Temp_TL0 + 12; //加12是对中断延时的补偿 
+ 103   3      } 
+ 104   2      SLen=LengthTab[Length%10]; //算出是几分音符 
+ 105   2      XG=Length/10%10; //算出音符类型(0普通1连音2顿音) 
+ 106   2      FD=Length/100; 
+ 107   2      LDiv=LDiv0/SLen; //算出连音音符演奏的长度(多少个10ms) 
+ 108   2      if (FD==1) 
+ 109   2      LDiv=LDiv+LDiv/2; 
+ 110   2      if(XG!=1) 
+ 111   2      if(XG==0) //算出普通音符的演奏长度 
+ 112   2      if (SLen<=4) 
+ 113   2      LDiv1=LDiv-LDiv4; 
+ 114   2      else 
+ 115   2      LDiv1=LDiv*SOUND_SPACE; 
+ 116   2      else 
+ 117   2      LDiv1=LDiv/2; //算出顿音的演奏长度 
+C51 COMPILER V6.23a  2                                                                     09/28/2015 23:58:08 PAGE 3   
+
+ 118   2      else 
+ 119   2      LDiv1=LDiv; 
+ 120   2      if(SL==0) LDiv1=0; 
+ 121   2      LDiv2=LDiv-LDiv1; //算出不发音的长度 
+ 122   2      if (SL!=0) 
+ 123   2      { 
+ 124   3      TR0=1; 
+ 125   3      for(i=LDiv1;i>0;i--) //发规定长度的音 
+ 126   3      { 
+ 127   4      while(TF1==0); 
+ 128   4      TH1 = Sound_Temp_TH1; 
+ 129   4      TL1 = Sound_Temp_TL1; 
+ 130   4      TF1=0; 
+ 131   4      } 
+ 132   3      } 
+ 133   2      if(LDiv2!=0) 
+ 134   2      { 
+ 135   3      TR0=0; BeepIO=1; 
+ 136   3      for(i=LDiv2;i>0;i--) //音符间的间隔 
+ 137   3      { 
+ 138   4      while(TF1==0); 
+ 139   4      TH1 = Sound_Temp_TH1; 
+ 140   4      TL1 = Sound_Temp_TL1; 
+ 141   4      TF1=0; 
+ 142   4      } 
+ 143   3      } 
+ 144   2      Point+=2; 
+ 145   2      Tone=Sound[Point]; 
+ 146   2      Length=Sound[Point+1]; 
+ 147   2      } 
+ 148   1      BeepIO = 1; 
+ 149   1      } 
+ 150          //************************************************************************** 
+ 151          #endif 
+ 152          //挥着翅膀的女孩 
+ 153          unsigned char code Music_t[]={ 0x1A,0x03, 0x1B,0x03, 0x1F,0x66, 0x1B,0x03, 0x1F,0x02,
+ 154                                            0x21,0x02, 0x1B,0x00, 0x17,0x03, 0x17,0x03, 0x1A,0x66,
+ 155                                            0x19,0x03, 0x1A,0x02, 0x1F,0x02, 0x19,0x15, 0x17,0x03,
+ 156                                            0x17,0x03, 0x18,0x66, 0x17,0x03, 0x18,0x03, 0x15,0x67,
+ 157                                            0x00,0x00 };
+ 158          unsigned char code Music_Girl[]={ 0x17,0x02, 0x17,0x03, 0x18,0x03, 0x19,0x02, 0x15,0x03, 
+ 159          0x16,0x03, 0x17,0x03, 0x17,0x03, 0x17,0x03, 0x18,0x03, 
+ 160          0x19,0x02, 0x16,0x03, 0x17,0x03, 0x18,0x02, 0x18,0x03, 
+ 161          0x17,0x03, 0x15,0x02, 0x18,0x03, 0x17,0x03, 0x18,0x02, 
+ 162          0x10,0x03, 0x15,0x03, 0x16,0x02, 0x15,0x03, 0x16,0x03, 
+ 163          0x17,0x02, 0x17,0x03, 0x18,0x03, 0x19,0x02, 0x1A,0x03, 
+ 164          0x1B,0x03, 0x1F,0x03, 0x1F,0x03, 0x17,0x03, 0x18,0x03, 
+ 165          0x19,0x02, 0x16,0x03, 0x17,0x03, 0x18,0x03, 0x17,0x03, 
+ 166          0x18,0x03, 0x1F,0x03, 0x1F,0x02, 0x16,0x03, 0x17,0x03, 
+ 167          0x18,0x03, 0x17,0x03, 0x18,0x03, 0x20,0x03, 0x20,0x02, 
+ 168          0x1F,0x03, 0x1B,0x03, 0x1F,0x66, 0x20,0x03, 0x21,0x03, 
+ 169          0x20,0x03, 0x1F,0x03, 0x1B,0x03, 0x1F,0x66, 0x1F,0x03, 
+ 170          0x1B,0x03, 0x19,0x03, 0x19,0x03, 0x15,0x03, 0x1A,0x66, 
+ 171          0x1A,0x03, 0x19,0x03, 0x15,0x03, 0x15,0x03, 0x17,0x03, 
+ 172          0x16,0x66, 0x17,0x04, 0x18,0x04, 0x18,0x03, 0x19,0x03, 
+ 173          0x1F,0x03, 0x1B,0x03, 0x1F,0x66, 0x20,0x03, 0x21,0x03, 
+ 174          0x20,0x03, 0x1F,0x03, 0x1B,0x03, 0x1F,0x66, 0x1F,0x03, 
+ 175          0x1B,0x03, 0x19,0x03, 0x19,0x03, 0x15,0x03, 0x1A,0x66, 
+ 176          0x1A,0x03, 0x19,0x03, 0x19,0x03, 0x1F,0x03, 0x1B,0x03, 
+ 177          0x1F,0x00, 0x1A,0x03, 0x1A,0x03, 0x1A,0x03, 0x1B,0x03, 
+ 178          0x1B,0x03, 0x1A,0x03, 0x19,0x03, 0x19,0x02, 0x17,0x03, 
+ 179          0x15,0x17, 0x15,0x03, 0x16,0x03, 0x17,0x03, 0x18,0x03, 
+C51 COMPILER V6.23a  2                                                                     09/28/2015 23:58:08 PAGE 4   
+
+ 180          0x17,0x04, 0x18,0x0E, 0x18,0x03, 0x17,0x04, 0x18,0x0E, 
+ 181          0x18,0x66, 0x17,0x03, 0x18,0x03, 0x17,0x03, 0x18,0x03, 
+ 182          0x20,0x03, 0x20,0x02, 0x1F,0x03, 0x1B,0x03, 0x1F,0x66, 
+ 183          0x20,0x03, 0x21,0x03, 0x20,0x03, 0x1F,0x03, 0x1B,0x03, 
+ 184          0x1F,0x66, 0x1F,0x04, 0x1B,0x0E, 0x1B,0x03, 0x19,0x03, 
+ 185          0x19,0x03, 0x15,0x03, 0x1A,0x66, 0x1A,0x03, 0x19,0x03, 
+ 186          0x15,0x03, 0x15,0x03, 0x17,0x03, 0x16,0x66, 0x17,0x04, 
+ 187          0x18,0x04, 0x18,0x03, 0x19,0x03, 0x1F,0x03, 0x1B,0x03, 
+ 188          0x1F,0x66, 0x20,0x03, 0x21,0x03, 0x20,0x03, 0x1F,0x03, 
+ 189          0x1B,0x03, 0x1F,0x66, 0x1F,0x03, 0x1B,0x03, 0x19,0x03, 
+ 190          0x19,0x03, 0x15,0x03, 0x1A,0x66, 0x1A,0x03, 0x19,0x03, 
+ 191          0x19,0x03, 0x1F,0x03, 0x1B,0x03, 0x1F,0x00, 0x18,0x02, 
+ 192          0x18,0x03, 0x1A,0x03, 0x19,0x0D, 0x15,0x03, 0x15,0x02, 
+ 193          0x18,0x66, 0x16,0x02, 0x17,0x02, 0x15,0x00, 0x00,0x00}; 
+ 194          //同一首歌 
+ 195          unsigned char code Music_Same[]={ 0x0F,0x01, 0x15,0x02, 0x16,0x02, 0x17,0x66, 0x18,0x03, 
+ 196          0x17,0x02, 0x15,0x02, 0x16,0x01, 0x15,0x02, 0x10,0x02, 
+ 197          0x15,0x00, 0x0F,0x01, 0x15,0x02, 0x16,0x02, 0x17,0x02, 
+ 198          0x17,0x03, 0x18,0x03, 0x19,0x02, 0x15,0x02, 0x18,0x66, 
+ 199          0x17,0x03, 0x19,0x02, 0x16,0x03, 0x17,0x03, 0x16,0x00, 
+ 200          0x17,0x01, 0x19,0x02, 0x1B,0x02, 0x1B,0x70, 0x1A,0x03, 
+ 201          0x1A,0x01, 0x19,0x02, 0x19,0x03, 0x1A,0x03, 0x1B,0x02, 
+ 202          0x1A,0x0D, 0x19,0x03, 0x17,0x00, 0x18,0x66, 0x18,0x03, 
+ 203          0x19,0x02, 0x1A,0x02, 0x19,0x0C, 0x18,0x0D, 0x17,0x03, 
+ 204          0x16,0x01, 0x11,0x02, 0x11,0x03, 0x10,0x03, 0x0F,0x0C, 
+ 205          0x10,0x02, 0x15,0x00, 0x1F,0x01, 0x1A,0x01, 0x18,0x66, 
+ 206          0x19,0x03, 0x1A,0x01, 0x1B,0x02, 0x1B,0x03, 0x1B,0x03, 
+ 207          0x1B,0x0C, 0x1A,0x0D, 0x19,0x03, 0x17,0x00, 0x1F,0x01, 
+ 208          0x1A,0x01, 0x18,0x66, 0x19,0x03, 0x1A,0x01, 0x10,0x02, 
+ 209          0x10,0x03, 0x10,0x03, 0x1A,0x0C, 0x18,0x0D, 0x17,0x03, 
+ 210          0x16,0x00, 0x0F,0x01, 0x15,0x02, 0x16,0x02, 0x17,0x70, 
+ 211          0x18,0x03, 0x17,0x02, 0x15,0x03, 0x15,0x03, 0x16,0x66, 
+ 212          0x16,0x03, 0x16,0x02, 0x16,0x03, 0x15,0x03, 0x10,0x02, 
+ 213          0x10,0x01, 0x11,0x01, 0x11,0x66, 0x10,0x03, 0x0F,0x0C, 
+ 214          0x1A,0x02, 0x19,0x02, 0x16,0x03, 0x16,0x03, 0x18,0x66, 
+ 215          0x18,0x03, 0x18,0x02, 0x17,0x03, 0x16,0x03, 0x19,0x00, 
+ 216          0x00,0x00 }; 
+ 217          //两只蝴蝶 
+ 218          unsigned char code Music_Two[] ={ 0x17,0x03, 0x16,0x03, 0x17,0x01, 0x16,0x03, 0x17,0x03, 
+ 219          0x16,0x03, 0x15,0x01, 0x10,0x03, 0x15,0x03, 0x16,0x02, 
+ 220          0x16,0x0D, 0x17,0x03, 0x16,0x03, 0x15,0x03, 0x10,0x03, 
+ 221          0x10,0x0E, 0x15,0x04, 0x0F,0x01, 0x17,0x03, 0x16,0x03, 
+ 222          0x17,0x01, 0x16,0x03, 0x17,0x03, 0x16,0x03, 0x15,0x01, 
+ 223          0x10,0x03, 0x15,0x03, 0x16,0x02, 0x16,0x0D, 0x17,0x03, 
+ 224          0x16,0x03, 0x15,0x03, 0x10,0x03, 0x15,0x03, 0x16,0x01, 
+ 225          0x17,0x03, 0x16,0x03, 0x17,0x01, 0x16,0x03, 0x17,0x03, 
+ 226          0x16,0x03, 0x15,0x01, 0x10,0x03, 0x15,0x03, 0x16,0x02, 
+ 227          0x16,0x0D, 0x17,0x03, 0x16,0x03, 0x15,0x03, 0x10,0x03, 
+ 228          0x10,0x0E, 0x15,0x04, 0x0F,0x01, 0x17,0x03, 0x19,0x03, 
+ 229          0x19,0x01, 0x19,0x03, 0x1A,0x03, 0x19,0x03, 0x17,0x01, 
+ 230          0x16,0x03, 0x16,0x03, 0x16,0x02, 0x16,0x0D, 0x17,0x03, 
+ 231          0x16,0x03, 0x15,0x03, 0x10,0x03, 0x10,0x0D, 0x15,0x00, 
+ 232          0x19,0x03, 0x19,0x03, 0x1A,0x03, 0x1F,0x03, 0x1B,0x03, 
+ 233          0x1B,0x03, 0x1A,0x03, 0x17,0x0D, 0x16,0x03, 0x16,0x03, 
+ 234          0x16,0x0D, 0x17,0x01, 0x17,0x03, 0x17,0x03, 0x19,0x03, 
+ 235          0x1A,0x02, 0x1A,0x02, 0x10,0x03, 0x17,0x0D, 0x16,0x03, 
+ 236          0x16,0x01, 0x17,0x03, 0x19,0x03, 0x19,0x03, 0x17,0x03, 
+ 237          0x19,0x02, 0x1F,0x02, 0x1B,0x03, 0x1A,0x03, 0x1A,0x0E, 
+ 238          0x1B,0x04, 0x17,0x02, 0x1A,0x03, 0x1A,0x03, 0x1A,0x0E, 
+ 239          0x1B,0x04, 0x1A,0x03, 0x19,0x03, 0x17,0x03, 0x16,0x03, 
+ 240          0x17,0x0D, 0x16,0x03, 0x17,0x03, 0x19,0x01, 0x19,0x03, 
+ 241          0x19,0x03, 0x1A,0x03, 0x1F,0x03, 0x1B,0x03, 0x1B,0x03, 
+C51 COMPILER V6.23a  2                                                                     09/28/2015 23:58:08 PAGE 5   
+
+ 242          0x1A,0x03, 0x17,0x0D, 0x16,0x03, 0x16,0x03, 0x16,0x03, 
+ 243          0x17,0x01, 0x17,0x03, 0x17,0x03, 0x19,0x03, 0x1A,0x02, 
+ 244          0x1A,0x02, 0x10,0x03, 0x17,0x0D, 0x16,0x03, 0x16,0x01, 
+ 245          0x17,0x03, 0x19,0x03, 0x19,0x03, 0x17,0x03, 0x19,0x03, 
+ 246          0x1F,0x02, 0x1B,0x03, 0x1A,0x03, 0x1A,0x0E, 0x1B,0x04, 
+ 247          0x17,0x02, 0x1A,0x03, 0x1A,0x03, 0x1A,0x0E, 0x1B,0x04, 
+ 248          0x17,0x16, 0x1A,0x03, 0x1A,0x03, 0x1A,0x0E, 0x1B,0x04, 
+ 249          0x1A,0x03, 0x19,0x03, 0x17,0x03, 0x16,0x03, 0x0F,0x02, 
+ 250          0x10,0x03, 0x15,0x00, 0x00,0x00 }; 
+ 251          void main() 
+ 252          { 
+ 253   1      InitialSound(); 
+ 254   1      while(1) 
+ 255   1      { 
+ 256   2      Play(Music_t,0,2,350);
+ 257   2      Play(Music_Girl,0,2,350); 
+ 258   2      Play(Music_Same,0,2,350); 
+ 259   2      Play(Music_Two,0,2,350); 
+ 260   2      } 
+ 261   1      } 
+C51 COMPILER V6.23a  2                                                                     09/28/2015 23:58:08 PAGE 6   
+
+NAME                                    CLASS   MSPACE  TYPE    OFFSET  SIZE
+====                                    =====   ======  ====    ======  ====
+
+
+LengthTab. . . . . . . . . . . . . . .  PUBLIC   CODE   ARRAY    001FH  7
+P1 . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0090H  1
+T0 . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B4H  1
+AC . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D6H  1
+T1 . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B5H  1
+EA . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00AFH  1
+RD . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B7H  1
+BeepIO . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0095H  1
+ES . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00ACH  1
+RI . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0098H  1
+INT0 . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B2H  1
+CY . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D7H  1
+TI . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0099H  1
+INT1 . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B3H  1
+Music_Two. . . . . . . . . . . . . . .  PUBLIC   CODE   ARRAY    028CH  326
+PS . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00BCH  1
+OV . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D2H  1
+main . . . . . . . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+WR . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B6H  1
+SignTab. . . . . . . . . . . . . . . .  PUBLIC   CODE   ARRAY    0018H  7
+Sound_Temp_TH0 . . . . . . . . . . . .  PUBLIC   DATA   U_CHAR   0000H  1
+BeepTimer0 . . . . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+Sound_Temp_TH1 . . . . . . . . . . . .  PUBLIC   DATA   U_CHAR   0001H  1
+TMOD . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0089H  1
+Sound_Temp_TL0 . . . . . . . . . . . .  PUBLIC   DATA   U_CHAR   0002H  1
+Sound_Temp_TL1 . . . . . . . . . . . .  PUBLIC   DATA   U_CHAR   0003H  1
+FreTab . . . . . . . . . . . . . . . .  PUBLIC   CODE   ARRAY    0000H  24
+IE0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0089H  1
+IE1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008BH  1
+ET0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00A9H  1
+ET1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00ABH  1
+TF0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008DH  1
+TF1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008FH  1
+RB8. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009AH  1
+TH0. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   008CH  1
+EX0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00A8H  1
+IT0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0088H  1
+TH1. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   008DH  1
+TB8. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009BH  1
+EX1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00AAH  1
+IT1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008AH  1
+P. . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D0H  1
+SM0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009FH  1
+TL0. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   008AH  1
+SM1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009EH  1
+TL1. . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   008BH  1
+SM2. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009DH  1
+PT0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B9H  1
+PT1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00BBH  1
+RS0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D3H  1
+TR0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008CH  1
+RS1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D4H  1
+TR1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008EH  1
+Music_t. . . . . . . . . . . . . . . .  PUBLIC   CODE   ARRAY    0026H  42
+PX0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B8H  1
+PX1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00BAH  1
+InitialSound . . . . . . . . . . . . .  PUBLIC   CODE   PROC     0000H  -----
+C51 COMPILER V6.23a  2                                                                     09/28/2015 23:58:08 PAGE 7   
+
+NAME                                    CLASS   MSPACE  TYPE    OFFSET  SIZE
+====                                    =====   ======  ====    ======  ====
+
+
+REN. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009CH  1
+Music_Same . . . . . . . . . . . . . .  PUBLIC   CODE   ARRAY    01B8H  212
+RXD. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B0H  1
+TXD. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B1H  1
+Music_Girl . . . . . . . . . . . . . .  PUBLIC   CODE   ARRAY    0050H  360
+F0 . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D5H  1
+_Play. . . . . . . . . . . . . . . . .  PUBLIC   CODE   PROC     0010H  -----
+  Sound. . . . . . . . . . . . . . . .  AUTO     DATA   PTR      0000H  3
+  Signature. . . . . . . . . . . . . .  AUTO     DATA   U_CHAR   0003H  1
+  Octachord. . . . . . . . . . . . . .  AUTO     DATA   U_INT    0004H  2
+  Speed. . . . . . . . . . . . . . . .  AUTO     DATA   U_INT    0006H  2
+  NewFreTab. . . . . . . . . . . . . .  AUTO     DATA   ARRAY    0008H  24
+  i. . . . . . . . . . . . . . . . . .  AUTO     DATA   U_CHAR   0020H  1
+  j. . . . . . . . . . . . . . . . . .  * REG *  DATA   U_CHAR   0007H  1
+  Point. . . . . . . . . . . . . . . .  AUTO     DATA   U_INT    0021H  2
+  LDiv . . . . . . . . . . . . . . . .  * REG *  DATA   U_INT    0002H  2
+  LDiv0. . . . . . . . . . . . . . . .  AUTO     DATA   U_INT    0023H  2
+  LDiv1. . . . . . . . . . . . . . . .  AUTO     DATA   U_INT    0025H  2
+  LDiv2. . . . . . . . . . . . . . . .  AUTO     DATA   U_INT    0027H  2
+  LDiv4. . . . . . . . . . . . . . . .  AUTO     DATA   U_INT    0029H  2
+  CurrentFre . . . . . . . . . . . . .  * REG *  DATA   U_INT    0006H  2
+  Temp_T . . . . . . . . . . . . . . .  * REG *  DATA   U_INT    0004H  2
+  SoundLength. . . . . . . . . . . . .  AUTO     DATA   U_INT    002BH  2
+  Tone . . . . . . . . . . . . . . . .  AUTO     DATA   U_CHAR   002DH  1
+  Length . . . . . . . . . . . . . . .  AUTO     DATA   U_CHAR   002EH  1
+  SL . . . . . . . . . . . . . . . . .  AUTO     DATA   U_CHAR   002FH  1
+  SH . . . . . . . . . . . . . . . . .  * REG *  DATA   U_CHAR   0007H  1
+  SM . . . . . . . . . . . . . . . . .  * REG *  DATA   U_CHAR   0005H  1
+  SLen . . . . . . . . . . . . . . . .  AUTO     DATA   U_CHAR   0030H  1
+  XG . . . . . . . . . . . . . . . . .  AUTO     DATA   U_CHAR   0031H  1
+  FD . . . . . . . . . . . . . . . . .  AUTO     DATA   U_CHAR   0032H  1
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    790    ----
+   CONSTANT SIZE    =    978    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      4      51
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

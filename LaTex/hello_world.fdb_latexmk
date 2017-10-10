@@ -1,0 +1,15 @@
+# Fdb version 3
+["pdflatex"] 1462409655 "hello_world.tex" "hello_world.pdf" "hello_world" 1462409655
+  "/usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb" 1248133631 35752 024fb6c41858982481f6968b5fc26508 ""
+  "/usr/local/texlive/2015/texmf-dist/tex/latex/base/article.cls" 1459635588 19821 310da678527a7dfe2a02c88af38079b7 ""
+  "/usr/local/texlive/2015/texmf-dist/tex/latex/base/size10.clo" 1459635588 8292 e897c12e1e886ce77fe26afc5d470886 ""
+  "/usr/local/texlive/2015/texmf-dist/web2c/texmf.cnf" 1445297872 31985 3b2aa1e4e73426e2011ec5231ac92e0f ""
+  "/usr/local/texlive/2015/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1462387074 1868840 e4fd5cf80129b5397a7fda0acc6e6a11 ""
+  "/usr/local/texlive/2015/texmf-var/web2c/pdftex/pdflatex.fmt" 1462387143 3859654 b5ac57b54fc71c0906b17c0173ba35f1 ""
+  "/usr/local/texlive/2015/texmf.cnf" 1432479636 577 0d611272082f3cdb8e80e09a3c69cf07 ""
+  "hello_world.aux" 1462409655 8 a94a2480d3289e625eea47cd1b285758 ""
+  "hello_world.tex" 1462409651 86 b6f7260b24e6d8faec3e2aa3418503a0 ""
+  (generated)
+  "hello_world.pdf"
+  "hello_world.aux"
+  "hello_world.log"

@@ -1,0 +1,173 @@
+A51 MACRO ASSEMBLER  BUZZ                                                                 10/02/2015 17:46:50 PAGE     1
+
+
+MACRO ASSEMBLER A51 V6.23
+OBJECT MODULE PLACED IN \\PSF\HOME\DOCU~CQ0\MY-TEST\BUZZ.OBJ
+ASSEMBLER INVOKED BY: C:\COMP51\A51.EXE \\PSF\HOME\DOCU~CQ0\MY-TEST\BUZZ.ASM DB SB
+
+LOC  OBJ            LINE     SOURCE
+
+                       1                              ;ÑÝ×à¡¶Ìì¿ÕÖ®³Ç¡·
+0000                   2             ORG 0000H
+0000 0120              3             AJMP MAIN        ;×ªµ½Ö÷³ÌÐò
+000B                   4             ORG 000BH        ;T0µÄÖÐ¶ÏÈë¿ÚµØÖ·
+000B 020062            5             LJMP IT0P        ;×ªµ½T0µÄÖÐ¶Ï·þÎñ×Ó³ÌÐò
+                       6     
+0020                   7             ORG 0020H        ;Ö÷³ÌÐòÈë¿ÚµØÖ·
+0020 758901            8       MAIN: MOV TMOD,#01H    ;Ñ¡ÔñT0¹¤×÷ÔÚ·½Ê½1
+0023 75A882            9             MOV IE,#82H      ;ÔÊÐíT0ÖÐ¶Ï
+0026 753000           10      START: MOV 30H,#00H     ;È¡Æ×Ö¸Õë³õÊ¼»¯£¨ÕâÀïÉè30HÎªÈ¡Æ×Ö¸Õë£©
+0029 E530             11       LOOP: MOV A,30H        ;½«È¡Æ×Ö¸Õë×°ÈëA                    A =00H
+002B 900092           12             MOV DPTR,#TAB2   ;µ½TAB2´¦£¬È¡ÀÖÆ×Âë                 
+002E 93               13             MOVC A,@A+DPTR   ;È¡ÀÖÆ×Âë                           A =JPH (ÀÖÆ×Âë)
+002F FA               14             MOV R2,A         ;½«È¡µ½µÄÀÖÆ×ÂëÔÝ´æÓÚR2             R2=JPH (ÀÖÆ×Âë)
+0030 602B             15             JZ END0          ;ÅÐ¶ÏÈ¡µ½µÄÊÇ·ñÎª½áÊøÂë00H
+0032 540F             16             ANL A,#0FH       ;È¡µÍ4Î»£¨½ÚÅÄÂë£©                  A =0PH  (½ÚÅÄÂë)
+0034 FB               17             MOV R3,A         ;½«½ÚÅÄÂë´æÈëR3                     R3=0PH  (½ÚÅÄÂë)
+0035 EA               18             MOV A,R2         ;½«È¡µ½µÄÀÖÆ×ÂëÖØ×°ÈëAÖÐ            A =JPH  (ÀÖÆ×Âë)
+0036 54F0             19             ANL A,#0F0H      ;È¡¸ß4Î»£¨Òô·ûÂë£©                  A =J0H  (Òô·ûÂë)
+0038 7004             20             JNZ SING         ;ÅÐ¶ÏÈ¡µ½µÄÒô·ûÂëÊÇ·ñÎª0£¨ÐÝÖ¹·û£©
+003A C28C             21             CLR TR0          ;Í£Ö¹T0£¬²»·¢Òô
+003C 8015             22             SJMP NEXT       ;×ªÖÁÑÓÊ±×Ó³ÌÐò                     
+003E C4               23       SING: SWAP A          ;¸ßµÍÎ»»¥»»                          A =0JH
+003F 14               24             DEC A           ;È¡µ½µÄÒô·ûÂë¼õ1                     A =0JH-1
+0040 23               25             RL A            ;AÖÐÊÖµ³Ë2
+0041 FC               26             MOV R4,A        ;½«AÖÐÊÖµÔÝ´æÓÚR4
+                      27             
+0042 900078           28             MOV DPTR,#TAB1  ;µ½TAB1´¦È¡¼òÆ×Âë£¨¼ÆÊ³õÖµ£©
+0045 93               29             MOVC A,@A+DPTR  ;È¡¸ßÎ»×Ö½Ú
+0046 F58C             30             MOV TH0,A       ;½«È¡µ½µÄ¸ßÎ»×Ö½Ú×°ÈëTH0
+0048 F521             31             MOV 21H,A       ;½«È¡µ½µÄ¸ßÎ»×Ö½Ú´æÈë21Hµ¥Ôª
+004A EC               32             MOV A,R4        ;½«R4ÖÐµÄÊÖµÖØ×°ÈëAÖÐ
+004B A3               33             INC DPTR        ;DPTRÔö1
+004C 93               34             MOVC A,@A+DPTR  ;È¡µÍÎ»×Ö½Ú
+004D F58A             35             MOV TL0,A       ;½«È¡µ½µÄµÍÎ»×Ö½Ú×°ÈëTL0
+004F F520             36             MOV 20H,A       ;½«È¡µ½µÄµÍÎ»×Ö½Ú´æÈë20Hµ¥Ôª
+                      37             
+0051 D28C             38             SETB TR0        ;Æô¶¯T0
+0053 12006B           39       NEXT: LCALL DELAY     ;½ÚÅÄÑÓÊ±
+0056 DBFB             40             DJNZ R3,NEXT
+0058 0530             41             INC 30H          ;È¡Æ×Ö¸ÕëÔö1
+005A 020029           42             LJMP LOOP        ;È¡ÏÂÒ»¸öÀÖÆ×Âë
+005D C28C             43       END0: CLR TR0          ;Í£Ö¹T0
+005F 020026           44             LJMP START       ;ÖØ¸´Ñ­»·²¥·Å
+                      45     
+0062 85208A           46       IT0P: MOV TL0,20H      ;¸øT0ÖØ×°³õÖµ
+0065 85218C           47             MOV TH0,21H
+0068 B295             48             CPL P1.5         ;½«P1.0È¡·´£¬ÒÔ²úÉúÒôÆµÂö³å
+006A 32               49             RETI
+                      50     
+006B 7F02             51      DELAY: MOV R7,#02   ;1/4½ÚÅÄµÄÑÓÊ±×Ó³ÌÐò125ms£¨4/4ÅÄµÄÇú×Ó£©
+006D 7E7D             52     DELAY1: MOV R6,#125
+006F 7DF8             53     DELAY2: MOV R5,#248
+0071 DDFE             54             DJNZ R5,$
+0073 DEFA             55             DJNZ R6,DELAY2
+0075 DFF6             56             DJNZ R7,DELAY1
+0077 22               57             RET
+                      58     
+A51 MACRO ASSEMBLER  BUZZ                                                                 10/02/2015 17:46:50 PAGE     2
+
+0078                  59       TAB1:                                   ;¼òÆ×Âë±í
+0078 FD09             60             DW 64777,64820,64860,64898,64934  ;M3 M4 M#4 M5 M#5
+007A FD34                    
+007C FD5C                    
+007E FD82                    
+0080 FDA6                    
+0082 FDC8             61             DW 64968,65030,65058,65110,65157  ;M6 M7 H1  H2 H3
+0084 FE06                    
+0086 FE22                    
+0088 FE56                    
+008A FE85                    
+008C FE9A             62             DW 65178,65217,65252              ;H4 H5 H6
+008E FEC1                    
+0090 FEE4                    
+0092                  63       TAB2:    ;¸èÇú¡¶Ìì¿ÕÖ®³Ç¡·µÄÀÖÆ× 1=C£¬4/4ÅÄ
+0092 0C627286         64             DB 0CH,62H,72H,86H,72H,84H,0A4H,7CH       ;ÀÈç£¬0CH±íÊ¾ÐÝÖ¹·û£¬Õ¼3ÅÄ
+0096 7284A47C                
+009A 14664264         65             DB 14H,66H,42H,64H,84H,58H,04H            ;66H±íÊ¾M6£¬Õ¼1ÅÄ°ë£»12H±íÊ¾M3£¬Õ¼°ëÅÄ¡£¡
+                             £¡£
+009E 845804                  
+00A1 14261224         66             DB 14H,26H,12H,24H,84H,18H,02H            ;µÚÒ»ÐÐ
+00A5 841802                  
+00A8 86760274         67             DB 86H,76H,2H,74H,78H,04H
+00AC 7804                    
+00AE 62728672         68             DB 62H,72H,86H,72H,84H,0A4H,78H,04H
+00B2 84A47804                
+00B6 14664264         69             DB 14H,66H,42H,64H,84H,4CH,02H            ;µÚ¶þÐÐ
+00BA 844C02                  
+00BD 12248276         70             DB 12H,24H,82H,76H,84H,94H,0A2H,86H,04H
+00C1 8494A286                
+00C5 04                      
+00C6 82726474         71             DB 82H,72H,64H,74H,44H,68H,04H
+00CA 446804                  
+00CD 8292A692         72             DB 82H,92H,0A6H,92H,0A4H,0C4H,98H,04H     ;µÚÈÐÐ
+00D1 A4C49804                
+00D5 44867284         73             DB 44H,86H,72H,84H,0ACH,08H
+00D9 AC08                    
+00DB 62728474         74             DB 62H,72H,84H,74H,94H,86H,46H,04H
+00DF 94864604                
+00E3 B4A49484         75             DB 0B4H,0A4H,94H,84H,0A8H,08H             ;µÚËÄÐÐ
+00E7 A808                    
+00E9 A802A4D4         76             DB 0A8H,02H,0A4H,0D4H,04H
+00ED 04                      
+00EE C8A29288         77             DB 0C8H,0A2H,92H,88H,02H
+00F2 02                      
+00F3 82948296         78             DB 82H,94H,82H,96H,0C4H,0A8H,04H          ;µÚÎåÐÐ
+00F7 C4A804                  
+00FA A4D8C8A2         79             DB 0A4H,0D8H,0C8H,0A2H,92H,88H,02H
+00FE 928802                  
+0101 82948296         80             DB 82H,94H,82H,96H,74H,68H,04H
+0105 746804                  
+0108 6272640C         81             DB 62H,72H,64H,0CH                        ;µÚÁùÐÐ
+010C 00               82             DB 00H
+                      83             END
+                             
+                             TABLE3:
+*** WARNING #A73 IN 85 (\\PSF\HOME\DOCU~CQ0\MY-TEST\BUZZ.ASM, LINE 85): TEXT FOUND BEYOND END STATEMENT - IGNORED
+                                     DW 0,63628,63835,64021,64103,64260,64400,64524,0,0    ; µÍÒô £º  0  Do  Re M  Fa   
+                              So La Si 0  0
+                                     DW 0,63731,63928,0,64185,64331,64463,0,0,0            ; µÍÒô#£º  0  Do  Re 0  Fa   
+                              So La Si 0  0
+                                     DW 0,64580,64684,64777,64820,64898,64968,65030,0,0    ; ÖÐÒô £º  0  Do  Re M  Fa   
+                              So La Si 0  0
+                                     DW 0,64633,64732,0,64860,64934,64994,0,0,0            ; ÖÐÒô#£º  0  Do  Re 0  Fa   
+                              So La Si 0  0
+                                     DW 0,65058,65110,65157,65178,65217,65252,65283,0,0    ; ¸ßÒô £º  0  Do  Re M  Fa   
+A51 MACRO ASSEMBLER  BUZZ                                                                 10/02/2015 17:46:50 PAGE     3
+
+                              So La Si 0  0
+                                     DW 0,65085,65134,0,65198,65235,65268,0,0,0            ; ¸ßÒô#£º  0  Do  Re 0  Fa   
+                              So La Si 0  0
+                                     DW 0
+A51 MACRO ASSEMBLER  BUZZ                                                                 10/02/2015 17:46:50 PAGE     4
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+DELAY. . . . . . .  C ADDR   006BH   A   
+DELAY1 . . . . . .  C ADDR   006DH   A   
+DELAY2 . . . . . .  C ADDR   006FH   A   
+END0 . . . . . . .  C ADDR   005DH   A   
+IE . . . . . . . .  D ADDR   00A8H   A   
+IT0P . . . . . . .  C ADDR   0062H   A   
+LOOP . . . . . . .  C ADDR   0029H   A   
+MAIN . . . . . . .  C ADDR   0020H   A   
+NEXT . . . . . . .  C ADDR   0053H   A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+SING . . . . . . .  C ADDR   003EH   A   
+START. . . . . . .  C ADDR   0026H   A   
+TAB1 . . . . . . .  C ADDR   0078H   A   
+TAB2 . . . . . . .  C ADDR   0092H   A   
+TH0. . . . . . . .  D ADDR   008CH   A   
+TL0. . . . . . . .  D ADDR   008AH   A   
+TMOD . . . . . . .  D ADDR   0089H   A   
+TR0. . . . . . . .  B ADDR   0088H.4 A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  1 WARNING(S), 0 ERROR(S)

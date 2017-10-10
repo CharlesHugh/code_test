@@ -1,0 +1,73 @@
+A51 MACRO ASSEMBLER  LED                                                                  09/30/2015 20:42:50 PAGE     1
+
+
+MACRO ASSEMBLER A51 V6.23
+OBJECT MODULE PLACED IN \\PSF\HOME\DOCU~CQ0\MY-TEST\LED.OBJ
+ASSEMBLER INVOKED BY: C:\COMP51\A51.EXE \\PSF\HOME\DOCU~CQ0\MY-TEST\LED.ASM DB SB
+
+LOC  OBJ            LINE     SOURCE
+
+                       1     
+                       2     
+                       3     
+                       4     
+                       5     
+                       6     
+0000                   7     ORG             00H
+0000 020030            8     LJMP    INIT
+                       9     
+0030                  10     ORG             30H
+0030                  11     INIT:
+0030 74FE             12     MOV     A ,#0FEH        ;½«A¸³Öµ
+                      13     
+0032                  14     MAIN:
+0032 7907             15     MOV     R1,#007H        ;×óÒÆµÄ´ÎÊ
+0034 7A07             16     MOV     R2,#007H        ;ÓÒÒÆµÄ´ÎÊ
+0036                  17     LIFT:
+0036 F5A0             18     MOV     P2 , A
+0038 23               19     RL              A
+0039 1147             20     ACALL   DELAY           ;µ÷ÓÃÑÓÊ±º¯Ê
+003B D9F9             21     DJNZ    R1,LIFT
+003D                  22     RIGHT:
+003D F5A0             23     MOV     P2,A
+003F 03               24     RR              A
+0040 1147             25     ACALL   DELAY
+0042 DAF9             26     DJNZ    R2,RIGHT
+0044 020032           27     LJMP    MAIN            ;Ìø»ØÖ÷º¯Ê
+                      28     
+0047                  29     DELAY:
+0047 7D05             30     MOV     R5,#005H
+0049                  31     DE1:
+0049 7EFF             32     MOV     R6,#0FFH
+004B                  33     DE2:
+004B 7FFF             34     MOV     R7,#0FFH
+004D                  35     DE3:
+004D DFFE             36     DJNZ    R7,DE3
+004F DEFA             37     DJNZ    R6,DE2
+0051 DDF6             38     DJNZ    R5,DE1
+0053 22               39     RET
+                      40     
+                      41     END             
+A51 MACRO ASSEMBLER  LED                                                                  09/30/2015 20:42:50 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+DE1. . . . . . . .  C ADDR   0049H   A   
+DE2. . . . . . . .  C ADDR   004BH   A   
+DE3. . . . . . . .  C ADDR   004DH   A   
+DELAY. . . . . . .  C ADDR   0047H   A   
+INIT . . . . . . .  C ADDR   0030H   A   
+LIFT . . . . . . .  C ADDR   0036H   A   
+MAIN . . . . . . .  C ADDR   0032H   A   
+P2 . . . . . . . .  D ADDR   00A0H   A   
+RIGHT. . . . . . .  C ADDR   003DH   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

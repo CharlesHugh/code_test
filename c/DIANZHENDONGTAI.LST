@@ -1,0 +1,136 @@
+A51 MACRO ASSEMBLER  DIANZHENDONGTAI                                                      09/30/2015 20:48:40 PAGE     1
+
+
+MACRO ASSEMBLER A51 V6.23
+OBJECT MODULE PLACED IN \\PSF\HOME\DOCU~CQ0\MY-TEST\DIANZHENDONGTAI.OBJ
+ASSEMBLER INVOKED BY: C:\COMP51\A51.EXE \\PSF\HOME\DOCU~CQ0\MY-TEST\DIANZHENDONGTAI.ASM DB SB
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1             ORG     00H
+0000 020040            2             LJMP    INIT
+0030                   3             ORG     30H
+0030 3F065B4F          4             DB              03FH,006H,05BH,04FH,066H,06DH,07DH,007H,07FH,06FH,077H,07CH,039H,05
+                             EH,079H,071H
+0034 666D7D07                
+0038 7F6F777C                
+003C 395E7971                
+                       5             ;0,1,2,3,4,5,6,7,8,9,A,B,C,D,E,F
+  0030                 6             DAT0    EQU     30H;“™œ‘ æµƒ∞ÀŒª 
+  0031                 7             DAT1    EQU     31H
+  0032                 8             DAT2    EQU     32H
+  0033                 9             DAT3    EQU     33H
+  0034                10             DAT4    EQU     34H
+  0035                11             DAT5    EQU     35H
+  0036                12             DAT6    EQU     36H
+  0037                13             DAT7    EQU     37H 
+  00A2                14             LSA     EQU             P2.2
+  00A3                15             LSB     EQU     P2.3
+  00A4                16             LSC     EQU     P2.4
+  0080                17             GPIO_DIG EQU    P0
+                      18     ;*************;
+                      19     ;       ÷˜≥Ã–Ú    £ª
+                      20     ;*************;
+0040                  21     INIT:
+0040 75303F           22             MOV     DAT0,#03FH
+0043 753106           23             MOV             DAT1,#006H
+0046 75325B           24             MOV     DAT2,#05BH
+0049 75334F           25             MOV     DAT3,#04FH
+004C 753466           26             MOV     DAT4,#066H
+004F 75356D           27             MOV     DAT5,#06DH
+0052 75367D           28             MOV     DAT6,#07DH
+0055 753707           29             MOV     DAT7,#007H
+0058                  30     MAIN:
+0058 C2A2             31             CLR     LSA                     ; œ‘ æµ⁄“ªŒª
+005A C2A3             32             CLR     LSB
+005C C2A4             33             CLR             LSC     
+005E 853080           34             MOV     GPIO_DIG,DAT0
+0061 11CB             35             ACALL   DELAY                   ;œ‘ æ≥÷–¯ ±º‰
+0063 758000           36             MOV     GPIO_DIG,#000H  ;œ˚“˛
+0066 D2A2             37             SETB    LSA                     ; œ‘ æµ⁄∂˛Œª
+0068 C2A3             38             CLR     LSB
+006A C2A4             39             CLR             LSC
+006C 853180           40             MOV     GPIO_DIG,DAT1
+006F 11CB             41             ACALL   DELAY           ;œ‘ æ≥÷–¯ ±º‰
+0071 758000           42             MOV     GPIO_DIG,#000H
+0074 C2A2             43             CLR     LSA                     ;œ‘ æµ⁄»Œª
+0076 D2A3             44             SETB    LSB
+0078 C2A4             45             CLR             LSC     
+007A 853280           46             MOV     GPIO_DIG,DAT2
+007D 11CB             47             ACALL   DELAY           ;œ‘ æ≥÷–¯ ±º‰
+007F 758000           48             MOV     GPIO_DIG,#00H
+0082 D2A2             49             SETB    LSA                     ;œ‘ æµ⁄ÀƒŒª
+0084 D2A3             50             SETB    LSB
+0086 C2A4             51             CLR             LSC
+0088 853380           52             MOV     GPIO_DIG,DAT3
+008B 11CB             53             ACALL   DELAY           ;œ‘ æ≥÷–¯ ±º‰
+008D 758000           54             MOV     GPIO_DIG,#00H   
+A51 MACRO ASSEMBLER  DIANZHENDONGTAI                                                      09/30/2015 20:48:40 PAGE     2
+
+0090 C2A2             55             CLR     LSA                     ;œ‘ æµ⁄ŒÂŒª
+0092 C2A3             56             CLR     LSB
+0094 D2A4             57             SETB    LSC
+0096 853480           58             MOV     GPIO_DIG,DAT4
+0099 11CB             59             ACALL   DELAY           ;œ‘ æ≥÷–¯ ±º‰
+009B 758000           60             MOV     GPIO_DIG,#00H
+009E D2A2             61             SETB    LSA                     ;œ‘ æµ⁄¡˘Œª
+00A0 C2A3             62             CLR     LSB
+00A2 D2A4             63             SETB    LSC     
+00A4 853580           64             MOV     GPIO_DIG,DAT5
+00A7 11CB             65             ACALL   DELAY           ;œ‘ æ≥÷–¯ ±º‰
+00A9 758000           66             MOV     GPIO_DIG,#00H
+00AC C2A2             67             CLR     LSA                     ;œ‘ æµ⁄∆ﬂŒª
+00AE D2A3             68             SETB    LSB
+00B0 D2A4             69             SETB    LSC     
+00B2 853680           70             MOV     GPIO_DIG,DAT6
+00B5 11CB             71             ACALL   DELAY           ;œ‘ æ≥÷–¯ ±º‰
+00B7 758000           72             MOV     GPIO_DIG,#00H
+00BA D2A2             73             SETB    LSA                     ;œ‘ æµ⁄∆ﬂŒª
+00BC D2A3             74             SETB    LSB
+00BE D2A4             75             SETB    LSC     
+00C0 853780           76             MOV     GPIO_DIG,DAT7
+00C3 11CB             77             ACALL   DELAY           ;œ‘ æ≥÷–¯ ±º‰
+00C5 758000           78             MOV     GPIO_DIG,#00H
+00C8 020058           79             LJMP    MAIN
+                      80                     
+                      81     ;*************;
+                      82     ; —” ±≥Ã–Ú        £ª
+                      83     ;*************;
+00CB                  84     DELAY:
+00CB 7FFF             85             MOV     R7,#0FFH
+00CD DFFE             86             DJNZ    R7,$
+00CF 22               87             RET
+                      88     
+                      89             END
+                                             
+A51 MACRO ASSEMBLER  DIANZHENDONGTAI                                                      09/30/2015 20:48:40 PAGE     3
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+DAT0 . . . . . . .  N NUMB   0030H   A   
+DAT1 . . . . . . .  N NUMB   0031H   A   
+DAT2 . . . . . . .  N NUMB   0032H   A   
+DAT3 . . . . . . .  N NUMB   0033H   A   
+DAT4 . . . . . . .  N NUMB   0034H   A   
+DAT5 . . . . . . .  N NUMB   0035H   A   
+DAT6 . . . . . . .  N NUMB   0036H   A   
+DAT7 . . . . . . .  N NUMB   0037H   A   
+DELAY. . . . . . .  C ADDR   00CBH   A   
+GPIO_DIG . . . . .  D ADDR   0080H   A   
+INIT . . . . . . .  C ADDR   0040H   A   
+LSA. . . . . . . .  B ADDR   00A0H.2 A   
+LSB. . . . . . . .  B ADDR   00A0H.3 A   
+LSC. . . . . . . .  B ADDR   00A0H.4 A   
+MAIN . . . . . . .  C ADDR   0058H   A   
+P0 . . . . . . . .  D ADDR   0080H   A   
+P2 . . . . . . . .  D ADDR   00A0H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

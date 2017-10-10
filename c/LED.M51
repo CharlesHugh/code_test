@@ -1,0 +1,67 @@
+BL51 BANKED LINKER/LOCATER V4.23                                                        09/30/2015  20:42:50  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V4.23, INVOKED BY:
+C:\COMP51\BL51.EXE \\PSF\HOME\DOCU~CQ0\MY-TEST\LED.OBJ TO \\PSF\HOME\DOCU~CQ0\MY-TEST\LED RS (256)
+
+
+INPUT MODULES INCLUDED:
+  \\PSF\HOME\DOCU~CQ0\MY-TEST\LED.OBJ (LED)
+
+
+LINK MAP OF MODULE:  \\PSF\HOME\DOCU~CQ0\MY-TEST\LED (LED)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0054H     ABSOLUTE     
+
+
+
+SYMBOL TABLE OF MODULE:  \\PSF\HOME\DOCU~CQ0\MY-TEST\LED (LED)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        LED
+  C:0049H         SYMBOL        DE1
+  C:004BH         SYMBOL        DE2
+  C:004DH         SYMBOL        DE3
+  C:0047H         SYMBOL        DELAY
+  C:0030H         SYMBOL        INIT
+  C:0036H         SYMBOL        LIFT
+  C:0032H         SYMBOL        MAIN
+  D:00A0H         SYMBOL        P2
+  C:003DH         SYMBOL        RIGHT
+  C:0000H         LINE#         8
+  C:0030H         LINE#         12
+  C:0032H         LINE#         15
+  C:0034H         LINE#         16
+  C:0036H         LINE#         18
+  C:0038H         LINE#         19
+  C:0039H         LINE#         20
+  C:003BH         LINE#         21
+  C:003DH         LINE#         23
+  C:003FH         LINE#         24
+  C:0040H         LINE#         25
+  C:0042H         LINE#         26
+  C:0044H         LINE#         27
+  C:0047H         LINE#         30
+  C:0049H         LINE#         32
+  C:004BH         LINE#         34
+  C:004DH         LINE#         36
+  C:004FH         LINE#         37
+  C:0051H         LINE#         38
+  C:0053H         LINE#         39
+  -------         ENDMOD        LED
+BL51 BANKED LINKER/LOCATER V4.23                                                      09/30/2015  20:42:50  PAGE 2
+
+
+
+Program Size: data=8.0 xdata=0 code=84
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

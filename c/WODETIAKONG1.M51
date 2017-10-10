@@ -1,0 +1,104 @@
+BL51 BANKED LINKER/LOCATER V4.23                                                        09/28/2015  14:54:27  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V4.23, INVOKED BY:
+C:\COMP51\BL51.EXE \\PSF\HOME\DOCU~CQ0\MY-TEST\WODETIAKONG1.OBJ TO \\PSF\HOME\DOCU~CQ0\MY-TEST\WODETIAKONG1 RS (256)
+
+
+INPUT MODULES INCLUDED:
+  \\PSF\HOME\DOCU~CQ0\MY-TEST\WODETIAKONG1.OBJ (WODETIAKONG1)
+
+
+LINK MAP OF MODULE:  \\PSF\HOME\DOCU~CQ0\MY-TEST\WODETIAKONG1 (WODETIAKONG1)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     00ABH     ABSOLUTE     
+
+
+
+SYMBOL TABLE OF MODULE:  \\PSF\HOME\DOCU~CQ0\MY-TEST\WODETIAKONG1 (WODETIAKONG1)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        WODETIAKONG1
+  C:006BH         SYMBOL        DELAY
+  C:006DH         SYMBOL        DELAY1
+  C:006FH         SYMBOL        DELAY2
+  C:005DH         SYMBOL        END0
+  D:00A8H         SYMBOL        IE
+  C:0062H         SYMBOL        IT0P
+  C:0029H         SYMBOL        LOOP
+  C:0020H         SYMBOL        MAIN
+  C:0053H         SYMBOL        NEXT
+  D:0090H         SYMBOL        P1
+  C:003EH         SYMBOL        SING
+  C:0026H         SYMBOL        START
+  C:0078H         SYMBOL        TAB1
+  C:0092H         SYMBOL        TAB2
+  D:008CH         SYMBOL        TH0
+  D:008AH         SYMBOL        TL0
+  D:0089H         SYMBOL        TMOD
+  B:0088H.4       SYMBOL        TR0
+  C:0000H         LINE#         3
+  C:000BH         LINE#         5
+  C:0020H         LINE#         7
+  C:0023H         LINE#         8
+  C:0026H         LINE#         9
+  C:0029H         LINE#         10
+  C:002BH         LINE#         11
+  C:002EH         LINE#         12
+  C:002FH         LINE#         13
+  C:0030H         LINE#         14
+  C:0032H         LINE#         15
+  C:0034H         LINE#         16
+BL51 BANKED LINKER/LOCATER V4.23                                                      09/28/2015  14:54:27  PAGE 2
+
+
+  C:0035H         LINE#         17
+  C:0036H         LINE#         18
+  C:0038H         LINE#         19
+  C:003AH         LINE#         20
+  C:003CH         LINE#         21
+  C:003EH         LINE#         22
+  C:003FH         LINE#         23
+  C:0040H         LINE#         24
+  C:0041H         LINE#         25
+  C:0042H         LINE#         26
+  C:0045H         LINE#         27
+  C:0046H         LINE#         28
+  C:0048H         LINE#         29
+  C:004AH         LINE#         30
+  C:004BH         LINE#         31
+  C:004CH         LINE#         32
+  C:004DH         LINE#         33
+  C:004FH         LINE#         34
+  C:0051H         LINE#         35
+  C:0053H         LINE#         36
+  C:0056H         LINE#         37
+  C:0058H         LINE#         38
+  C:005AH         LINE#         39
+  C:005DH         LINE#         40
+  C:005FH         LINE#         41
+  C:0062H         LINE#         43
+  C:0065H         LINE#         44
+  C:0068H         LINE#         45
+  C:006AH         LINE#         46
+  C:006BH         LINE#         48
+  C:006DH         LINE#         49
+  C:006FH         LINE#         50
+  C:0071H         LINE#         51
+  C:0073H         LINE#         52
+  C:0075H         LINE#         53
+  C:0077H         LINE#         54
+  -------         ENDMOD        WODETIAKONG1
+
+Program Size: data=8.0 xdata=0 code=171
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

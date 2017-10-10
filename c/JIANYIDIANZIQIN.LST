@@ -1,0 +1,222 @@
+A51 MACRO ASSEMBLER  JIANYIDIANZIQIN                                                      10/01/2015 20:42:07 PAGE     1
+
+
+MACRO ASSEMBLER A51 V6.23
+OBJECT MODULE PLACED IN \\PSF\HOME\DOCU~CQ0\MY-TEST\JIANYIDIANZIQIN.OBJ
+ASSEMBLER INVOKED BY: C:\COMP51\A51.EXE \\PSF\HOME\DOCU~CQ0\MY-TEST\JIANYIDIANZIQIN.ASM DB SB
+
+LOC  OBJ            LINE     SOURCE
+
+                       1     ;*******************************************************
+                       2     ;               ¼òÒ×µç×ÓÇÙÊµÑéËµÃ÷
+                       3     ;ÊµÑéÄ¿µÄ£º     1.ÕÆÎÕ·äÃùÆ÷µÄÊ¹ÓÃ
+                       4     ;               2.ÕÆÎÕ·äÃùÆ÷µÄ²»Í¬·¢ÒôµÄ·½·¨
+                       5     ;ÊµÑéÄÚÈÝ£º     1.Í¨¹µ¥Æ¬»ú£¬Áî1-7ºÅ¼üÓÉµÍµ½¸ß·¢³ö1-7µÄÒô½×
+                       6     
+  0090                 7     K1              BIT     P1.0                    ;°´¼ü1
+  0091                 8     K2              BIT     P1.1                    ;°´¼ü2
+  0092                 9     K3              BIT     P1.2                    ;°´¼ü3
+  0093                10     K4              BIT     P1.3                    ;°´¼ü4
+  0094                11     K5              BIT     P1.4                    ;°´¼ü5
+  0097                12     K6              BIT     P1.7                    ;°´¼ü6
+  0096                13     K7              BIT     P1.6                    ;°´¼ü7
+  0095                14     Buzzer          BIT     P1.5                    ;·äÃùÆ÷
+  0011                15     M1              EQU     17
+  0010                16     M2              EQU     16
+  000F                17     M3              EQU     15
+  000E                18     M4              EQU     14
+  000D                19     M5              EQU     13
+  000C                20     M6              EQU     12
+  000B                21     M7              EQU     11
+                      22     
+0000                  23                     ORG     0000H
+0000 020100           24                     LJMP    START
+                      25     
+0100                  26                     ORG     0100H
+0100 758160           27     START:          MOV     SP,#60H
+0103 7590FF           28     MAIN:           MOV     P1,#0FFH                ;P1¿Ú³õÊ¼»¯
+0106 120135           29                     LCALL   Demo                    ;²¥·ÅÒ»¶ÎÑÝÊ¾ÒôÀÖ
+0109 209003           30     MAIN_1:         JB      K1,MAIN_2               ;ÅÐ¶Ï1ºÅ¼üÊÇ·ñ°´ÏÂ£¬·ñÔò¼ì²â2ºÅ¼ü
+010C 1201A0           31                     LCALL   Sound1                  ;·¢Òô×Ó³ÌÐò
+010F 209103           32     MAIN_2:         JB      K2,MAIN_3               ;ÅÐ¶Ï2ºÅ¼üÊÇ·ñ°´ÏÂ£¬·ñÔò¼ì²â3ºÅ¼ü
+0112 1201A8           33                     LCALL   Sound2                  ;·¢Òô×Ó³ÌÐò
+0115 209203           34     MAIN_3:         JB      K3,MAIN_4               ;ÅÐ¶Ï2ºÅ¼üÊÇ·ñ°´ÏÂ£¬·ñÔò¼ì²â4ºÅ¼ü
+0118 1201B0           35                     LCALL   Sound3                  ;·¢Òô×Ó³ÌÐò
+011B 209303           36     MAIN_4:         JB      K4,MAIN_5               ;ÅÐ¶Ï4ºÅ¼üÊÇ·ñ°´ÏÂ£¬·ñÔò¼ì²â5ºÅ¼ü
+011E 1201B8           37                     LCALL   Sound4                  ;·¢Òô×Ó³ÌÐò
+0121 209403           38     MAIN_5:         JB      K5,MAIN_6               ;ÅÐ¶Ï5ºÅ¼üÊÇ·ñ°´ÏÂ£¬·ñÔò¼ì²â6ºÅ¼ü
+0124 1201C0           39                     LCALL   Sound5                  ;·¢Òô×Ó³ÌÐò
+0127 209703           40     MAIN_6:         JB      K6,MAIN_7               ;ÅÐ¶Ï6ºÅ¼üÊÇ·ñ°´ÏÂ£¬·ñÔò¼ì²â7ºÅ¼ü
+012A 1201C8           41                     LCALL   Sound6                  ;·¢Òô×Ó³ÌÐò
+012D 209603           42     MAIN_7:         JB      K7,MAIN_73              ;ÅÐ¶Ï7ºÅ¼üÊÇ·ñ°´ÏÂ£¬·ñÔòÌø»Ø¼ì²â1ºÅ¼ü
+0130 1201D0           43                     LCALL   Sound7                  ;·¢Òô×Ó³ÌÐò
+0133 80D4             44     MAIN_73:        SJMP    MAIN_1                  ;·µ»Ø´Ó1ºÅ¼ü¿ªÊ¼É¨Ãè
+                      45     
+                      46     ;²¥·ÅÑÝÊ¾ÒôÀÖ
+0135 900143           47     Demo:           MOV     DPTR,#Music
+0138 E4               48     Demo_1:         CLR     A
+0139 93               49                     MOVC    A,@A+DPTR
+013A A3               50                     INC     DPTR
+013B 6005             51                     JZ      Demo_Ret
+013D 12016A           52                     LCALL   SoundMCU                ;·ÅÒô×Ó³ÌÐò
+0140 80F6             53                     JMP     Demo_1
+0142 22               54     Demo_Ret:       RET
+                      55     
+                      56     ;ÀÖÇú:),0-½á¹û±êÖ¾
+0143 11100F0E         57     Music:          DB      M1,M2,M3,M4,M5,M6,M7,M7,M7,M6,M5,M4,M3,M2,M1
+0147 0D0C0B0B                
+A51 MACRO ASSEMBLER  JIANYIDIANZIQIN                                                      10/01/2015 20:42:07 PAGE     2
+
+014B 0B0C0D0E                
+014F 0F1011                  
+0152 11101110         58                     DB      M1,M2,M1,M2,M3,M2,M3,M4,M3,M4,M5,M4,M5,M6,M5
+0156 0F100F0E                
+015A 0F0E0D0E                
+015E 0D0C0D                  
+0161 0C0B0C0B         59                     DB      M6,M7,M6,M7,M7,M6,M6,M6,0
+0165 0B0C0C0C                
+0169 00                      
+                      60     
+                      61     ;³ÌÐò¿ØÖÆ·¢Òô
+016A 7D40             62     SoundMCU:       MOV     R5,#40H                 ;¿ØÖÆ·ÅÒôÊ±¼ä
+016C FF               63                     MOV     R7,A
+016D 317B             64                     ACALL   Time
+016F FE               65                     MOV     R6,A
+0170 C006             66     SoundMCU_0:     PUSH    06H
+0172 318D             67     SoundMCU_1:     ACALL   MusicalScale
+0174 DEFC             68                     DJNZ    R6,SoundMCU_1
+0176 D006             69                     POP     06H
+0178 DDF6             70                     DJNZ    R5,SoundMCU_0
+017A 22               71                     RET
+                      72     ;¼ÆËãÊ±³¤
+017B 75F0FF           73     Time:           MOV     B,#0FFH
+017E C5F0             74                     XCH     A,B
+0180 84               75                     DIV     AB
+0181 C5F0             76                     XCH     A,B
+0183 B40800           77                     CJNE    A,#8,$+3
+0186 4002             78                     JC      Time_1
+0188 05F0             79                     INC     B
+018A C5F0             80     Time_1:         XCH     A,B
+018C 22               81                     RET
+                      82     
+018D EF               83     MusicalScale:   MOV     A,R7
+018E C295             84     MusicalScale1:  CLR     Buzzer                  ;1ºÅ¼ü·¢Òô
+0190 1201D8           85                     LCALL   Delay                   ;ÑÓÊ±
+0193 D5E0F8           86                     DJNZ    ACC,MusicalScale1
+0196 EF               87                     MOV     A,R7
+0197 D295             88     MusicalScale2:  SETB    Buzzer
+0199 1201D8           89                     LCALL   Delay                   ;ÑÓÊ±
+019C D5E0F8           90                     DJNZ    ACC,MusicalScale2
+019F 22               91                     RET
+                      92     ;1ºÅ¼ü·¢Òô
+01A0 7F11             93     Sound1:         MOV     R7,#M1                  ;·¢ÒôÆµÂÊ£¬Ô½´óÆµÂÊÔ½µÍ
+01A2 318D             94     Sound1_1:       ACALL   MusicalScale
+01A4 3090FB           95                     JNB     K1,Sound1_1
+01A7 22               96                     RET
+                      97     ;2ºÅ¼ü·¢Òô
+01A8 7F10             98     Sound2:         MOV     R7,#M2                  ;·¢ÒôÆµÂÊ£¬Ô½´óÆµÂÊÔ½µÍ
+01AA 318D             99     Sound2_1:       ACALL   MusicalScale
+01AC 3091FB          100                     JNB     K2,Sound2_1
+01AF 22              101                     RET
+                     102     ;3ºÅ¼ü·¢Òô
+01B0 7F0F            103     Sound3:         MOV     R7,#M3
+01B2 318D            104     Sound3_1:       ACALL   MusicalScale
+01B4 3092FB          105                     JNB     K3,Sound3_1
+01B7 22              106                     RET
+                     107     ;4ºÅ¼ü·¢Òô
+01B8 7F0E            108     Sound4:         MOV     R7,#M4
+01BA 318D            109     Sound4_1:       ACALL   MusicalScale
+01BC 3093FB          110                     JNB     K4,Sound4_1
+01BF 22              111                     RET
+                     112     ;5ºÅ¼ü·¢Òô
+01C0 7F0D            113     Sound5:         MOV     R7,#M5
+01C2 318D            114     Sound5_1:       ACALL   MusicalScale
+01C4 3094FB          115                     JNB     K5,Sound5_1
+01C7 22              116                     RET
+A51 MACRO ASSEMBLER  JIANYIDIANZIQIN                                                      10/01/2015 20:42:07 PAGE     3
+
+                     117     ;6ºÅ¼ü·¢Òô
+01C8 7F0C            118     Sound6:         MOV     R7,#M6
+01CA 318D            119     Sound6_1:       ACALL   MusicalScale
+01CC 3097FB          120                     JNB     K6,Sound6_1
+01CF 22              121                     RET
+                     122     ;7ºÅ¼ü·¢Òô
+01D0 7F0B            123     Sound7:         MOV     R7,#M7                  ;·¢ÒôÆµÂÊ£¬Ô½´óÆµÂÊÔ½µÍ
+01D2 318D            124     Sound7_1:       ACALL   MusicalScale
+01D4 3096FB          125                     JNB     K7,Sound7_1
+01D7 22              126                     RET
+                     127     ;ÑÓÊ±
+01D8 00              128     Delay:          NOP
+01D9 22              129                     RET
+                     130     
+                     131                     END
+A51 MACRO ASSEMBLER  JIANYIDIANZIQIN                                                      10/01/2015 20:42:07 PAGE     4
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+ACC. . . . . . . .  D ADDR   00E0H   A   
+B. . . . . . . . .  D ADDR   00F0H   A   
+BUZZER . . . . . .  B ADDR   0090H.5 A   
+DELAY. . . . . . .  C ADDR   01D8H   A   
+DEMO . . . . . . .  C ADDR   0135H   A   
+DEMO_1 . . . . . .  C ADDR   0138H   A   
+DEMO_RET . . . . .  C ADDR   0142H   A   
+K1 . . . . . . . .  B ADDR   0090H.0 A   
+K2 . . . . . . . .  B ADDR   0090H.1 A   
+K3 . . . . . . . .  B ADDR   0090H.2 A   
+K4 . . . . . . . .  B ADDR   0090H.3 A   
+K5 . . . . . . . .  B ADDR   0090H.4 A   
+K6 . . . . . . . .  B ADDR   0090H.7 A   
+K7 . . . . . . . .  B ADDR   0090H.6 A   
+M1 . . . . . . . .  N NUMB   0011H   A   
+M2 . . . . . . . .  N NUMB   0010H   A   
+M3 . . . . . . . .  N NUMB   000FH   A   
+M4 . . . . . . . .  N NUMB   000EH   A   
+M5 . . . . . . . .  N NUMB   000DH   A   
+M6 . . . . . . . .  N NUMB   000CH   A   
+M7 . . . . . . . .  N NUMB   000BH   A   
+MAIN . . . . . . .  C ADDR   0103H   A   
+MAIN_1 . . . . . .  C ADDR   0109H   A   
+MAIN_2 . . . . . .  C ADDR   010FH   A   
+MAIN_3 . . . . . .  C ADDR   0115H   A   
+MAIN_4 . . . . . .  C ADDR   011BH   A   
+MAIN_5 . . . . . .  C ADDR   0121H   A   
+MAIN_6 . . . . . .  C ADDR   0127H   A   
+MAIN_7 . . . . . .  C ADDR   012DH   A   
+MAIN_73. . . . . .  C ADDR   0133H   A   
+MUSIC. . . . . . .  C ADDR   0143H   A   
+MUSICALSCALE . . .  C ADDR   018DH   A   
+MUSICALSCALE1. . .  C ADDR   018EH   A   
+MUSICALSCALE2. . .  C ADDR   0197H   A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+SOUND1 . . . . . .  C ADDR   01A0H   A   
+SOUND1_1 . . . . .  C ADDR   01A2H   A   
+SOUND2 . . . . . .  C ADDR   01A8H   A   
+SOUND2_1 . . . . .  C ADDR   01AAH   A   
+SOUND3 . . . . . .  C ADDR   01B0H   A   
+SOUND3_1 . . . . .  C ADDR   01B2H   A   
+SOUND4 . . . . . .  C ADDR   01B8H   A   
+SOUND4_1 . . . . .  C ADDR   01BAH   A   
+SOUND5 . . . . . .  C ADDR   01C0H   A   
+SOUND5_1 . . . . .  C ADDR   01C2H   A   
+SOUND6 . . . . . .  C ADDR   01C8H   A   
+SOUND6_1 . . . . .  C ADDR   01CAH   A   
+SOUND7 . . . . . .  C ADDR   01D0H   A   
+SOUND7_1 . . . . .  C ADDR   01D2H   A   
+SOUNDMCU . . . . .  C ADDR   016AH   A   
+SOUNDMCU_0 . . . .  C ADDR   0170H   A   
+SOUNDMCU_1 . . . .  C ADDR   0172H   A   
+SP . . . . . . . .  D ADDR   0081H   A   
+START. . . . . . .  C ADDR   0100H   A   
+TIME . . . . . . .  C ADDR   017BH   A   
+TIME_1 . . . . . .  C ADDR   018AH   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

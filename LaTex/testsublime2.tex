@@ -1,0 +1,142 @@
+%!TEX program = xelatex
+\documentclass{article}
+\usepackage{fontspec, xunicode, xltxtra,metalogo,ulem,verbatim,paralist,amsmath}
+\setmainfont{Hiragino Sans GB}
+\title{Title}
+\author{name}
+\begin{document}
+\maketitle{title}
+\section{Introduction}
+This is where you will write your content. 在这里写上内容。
+\# \$ \^ \& \_ \{ \} \~ \textbackslash \% \\
+\TeX  \LaTeX\\
+\emph{强调：emphasis}\\  
+\uline{下划线：underline}\\  
+\uwave{波浪线：waveline}\\ 
+\sout{删除线：strike-out}\\
+
+computer-aided\\ 
+1840--2010\\
+to be---or not to be\\ 
+$1-1=0$
+
+\begin{flushleft}
+居左\\
+段落 
+\end{flushleft}
+
+\begin{center}
+居中\\
+段落 
+\end{center}
+
+\begin{flushright}
+居右\\
+段落 
+\end{flushright}
+
+\footnote
+
+\marginpar
+
+
+\newpage
+
+   \begin{comment} 
+   verbatim宏包\\
+   comment... 
+   \end{comment}
+
+\begin{quote}
+引文两端都缩进。引文两端都缩进。引文两端都缩进。 \\
+引文两端都缩进。引文两端都缩进。引文两端都缩进。\\
+\end{quote}
+
+\begin{quotation}
+引文两端缩进,首行增加缩进。引文两端缩进,首行增加缩进。\\
+引文两端缩进,首行增加缩进。引文两端缩进,首行增加缩进。\\
+\end{quotation}
+
+\begin{verse}
+引文两端缩进,第二行起增加缩进。引文两端缩进,第二行起增加缩进。\\
+引文两端缩进,第二行起增加缩进。引文两端缩进,第二行起增加缩进。 \\
+\end{verse}
+
+%列表
+\begin{itemize} 
+\item C++
+\item Java
+\item HTML 
+\end{itemize}
+
+\begin{enumerate} 
+\item C++
+\item Java
+\item HTML 
+\end{enumerate}
+
+\begin{description}
+\item[C++] 编程语言
+\item[Java] 编程语言
+\item[HTML] 标记语言 
+\end{description}
+
+%行距较小的paralist宏包
+\begin{compactitem} 
+\item C++
+\item Java
+\item HTML 
+\end{compactitem}
+
+\begin{compactenum} 
+\item C++
+\item Java
+\item HTML 
+\end{compactenum}
+
+\begin{compactdesc}
+\item[C++] 编程语言,
+\item[Java] 编程语言,
+\item[HTML] 标记语言。 
+\end{compactdesc}
+
+\begin{inparaitem} 
+\item C++
+\item Java
+\item HTML 
+\end{inparaitem}
+
+\begin{inparaenum} 
+\item C++
+\item Java
+\item HTML 
+\end{inparaenum}
+
+\newpage
+
+\mbox{010 6278 5001} 
+\fbox{010 6278 5001}
+
+%语法:[宽度][对齐方式]{内容}
+\makebox[100pt][c]{仪仗队}
+\framebox[100pt][s]{仪仗队}
+
+%高级盒子
+\fbox{% 
+  \parbox[c][36pt][t]{170pt}{
+  锦瑟无端五十弦,一弦一柱思华年。\\庄生晓梦迷蝴蝶,望帝春心托杜鹃。
+  }% 
+}
+\hfill 
+\fbox{%
+  \begin{minipage}[c][36pt][b]{170pt}
+  沧海月明珠有泪,蓝田日暖玉生烟。\\此情可待成追忆,只是当时已惘然。
+  \end{minipage}% 
+  }
+
+
+
+
+
+
+\end{document}

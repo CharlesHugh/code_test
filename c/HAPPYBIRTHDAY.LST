@@ -1,0 +1,359 @@
+A51 MACRO ASSEMBLER  HAPPYBIRTHDAY                                                        09/30/2015 20:15:29 PAGE     1
+
+
+MACRO ASSEMBLER A51 V6.23
+NO OBJECT MODULE REQUESTED
+ASSEMBLER INVOKED BY: C:\COMP51\A51.EXE \\PSF\HOME\DOCU~CQ0\MY-TEST\HAPPYBIRTHDAY.ASM DB SB
+
+LOC  OBJ            LINE     SOURCE
+
+  0030                 1     KEYBUF      EQU 30H 
+                       2     
+  0031                 3     STH0        EQU 31H 
+                       4     
+  0032                 5     STL0        EQU 32H 
+                       6     
+  0033                 7     TEMP        EQU 33H 
+                       8     
+0000                   9                 ORG 00H 
+                      10     
+0000 02000E           11                 LJMP START 
+                      12     6£Æª„±‡‘¥≥Ã–Ú 
+*** _________________________^
+*** __________________________^
+*** ___________________________^
+*** ____________________________^
+*** _____________________________^
+*** ERROR #A9 IN 12 (\\PSF\HOME\DOCU~CQ0\MY-TEST\HAPPYBIRTHDAY.ASM, LINE 12): SYNTAX ERROR
+*** ERROR #A3 IN 12 (\\PSF\HOME\DOCU~CQ0\MY-TEST\HAPPYBIRTHDAY.ASM, LINE 12): ILLEGAL CHARACTER
+*** ERROR #A3 IN 12 (\\PSF\HOME\DOCU~CQ0\MY-TEST\HAPPYBIRTHDAY.ASM, LINE 12): ILLEGAL CHARACTER
+*** ERROR #A3 IN 12 (\\PSF\HOME\DOCU~CQ0\MY-TEST\HAPPYBIRTHDAY.ASM, LINE 12): ILLEGAL CHARACTER
+*** ERROR #A3 IN 12 (\\PSF\HOME\DOCU~CQ0\MY-TEST\HAPPYBIRTHDAY.ASM, LINE 12): ILLEGAL CHARACTER
+*** MORE ERRORS DETECTED, NOT REPORTED  0030                13     KEYBUF      EQU 30H 
+*** _________________________^
+*** ERROR #A10 IN 13 (\\PSF\HOME\DOCU~CQ0\MY-TEST\HAPPYBIRTHDAY.ASM, LINE 13): ATTEMPT TO DEFINE AN ALREADY DEFINED SYMB
+                             OL
+  0031                14     STH0        EQU 31H 
+*** _________________________^
+*** ERROR #A10 IN 14 (\\PSF\HOME\DOCU~CQ0\MY-TEST\HAPPYBIRTHDAY.ASM, LINE 14): ATTEMPT TO DEFINE AN ALREADY DEFINED SYMB
+                             OL
+  0032                15     STL0        EQU 32H 
+*** _________________________^
+*** ERROR #A10 IN 15 (\\PSF\HOME\DOCU~CQ0\MY-TEST\HAPPYBIRTHDAY.ASM, LINE 15): ATTEMPT TO DEFINE AN ALREADY DEFINED SYMB
+                             OL
+  0033                16     TEMP        EQU 33H 
+*** _________________________^
+*** ERROR #A10 IN 16 (\\PSF\HOME\DOCU~CQ0\MY-TEST\HAPPYBIRTHDAY.ASM, LINE 16): ATTEMPT TO DEFINE AN ALREADY DEFINED SYMB
+                             OL
+0000                  17                 ORG 00H 
+0000 02000E           18                 LJMP START 
+000B                  19                 ORG 0BH 
+000B 0201D9           20                 LJMP INT_T0 
+000E 758901           21     START:      MOV TMOD,#01H 
+0011 D2A9             22                 SETB ET0 
+0013 D2AF             23                 SETB EA 
+0015 75B0FF           24     WAIT:       MOV P3,#0FFH 
+0018 C2B4             25                 CLR P3.4 
+001A E5B0             26                 MOV A,P3 
+001C 540F             27                 ANL A,#0FH  
+001E 640F             28                 XRL A,#0FH 
+0020 6061             29                 JZ NOKEY1 
+0022 1201D0           30                 LCALL DELY10MS 
+0025 E5B0             31                 MOV A,P3 
+0027 540F             32                 ANL A,#0FH 
+0029 640F             33                 XRL A,#0FH 
+002B 6056             34                 JZ NOKEY1 
+002D E5B0             35                 MOV A,P3 
+A51 MACRO ASSEMBLER  HAPPYBIRTHDAY                                                        09/30/2015 20:15:29 PAGE     2
+
+002F 540F             36                 ANL A,#0FH 
+0031 B40E06           37                 CJNE A,#0EH,NK1 
+0034 753000           38                 MOV KEYBUF,#0 
+0037 020056           39                 LJMP DK1 
+003A B40D06           40     NK1:        CJNE A,#0DH,NK2 
+003D 753001           41                 MOV KEYBUF,#1 
+0040 020056           42                 LJMP DK1 
+0043 B40B06           43     NK2:        CJNE A,#0BH,NK3 
+0046 753002           44                 MOV KEYBUF,#2 
+0049 020056           45                 LJMP DK1 
+004C B40706           46     NK3:        CJNE A,#07H,NK4 
+004F 753003           47                 MOV KEYBUF,#3 
+0052 020056           48                 LJMP DK1 
+0055 00               49     NK4:        NOP 
+0056 E530             50     DK1:        MOV A,KEYBUF 
+0058 9001E2           51                 MOV DPTR,#TABLE 
+005B 93               52                 MOVC A,@A+DPTR 
+005C F580             53                 MOV P0,A 
+005E E530             54                 MOV A,KEYBUF 
+0060 75F002           55                 MOV B,#2 
+0063 A4               56                 MUL AB 
+0064 F533             57                 MOV TEMP,A 
+0066 9001F2           58                 MOV DPTR,#TABLE1 
+0069 93               59                 MOVC A,@A+DPTR 
+006A F531             60                 MOV STH0,A 
+006C F58C             61                 MOV TH0,A 
+006E 0533             62                 INC TEMP 
+0070 E533             63                 MOV A,TEMP 
+0072 93               64                 MOVC A,@A+DPTR 
+0073 F532             65                 MOV STL0,A 
+0075 F58A             66                 MOV TL0,A 
+0077 D28C             67                 SETB TR0 
+0079 E5B0             68     DK1A:       MOV A,P3 
+007B 540F             69                 ANL A,#0FH 
+007D 640F             70                 XRL A,#0FH 
+007F 70F8             71                 JNZ DK1A 
+0081 C28C             72                 CLR TR0 
+0083 75B0FF           73     NOKEY1:     MOV P3,#0FFH 
+0086 C2B5             74                 CLR P3.5 
+0088 E5B0             75                 MOV A,P3 
+008A 540F             76                 ANL A,#0FH 
+008C 640F             77                 XRL A,#0FH 
+008E 6061             78                 JZ NOKEY2 
+0090 1201D0           79                 LCALL DELY10MS 
+0093 E5B0             80                 MOV A,P3 
+0095 540F             81                 ANL A,#0FH 
+0097 640F             82                 XRL A,#0FH 
+0099 6056             83                 JZ NOKEY2 
+009B E5B0             84                 MOV A,P3 
+009D 540F             85                 ANL A,#0FH 
+009F B40E06           86                 CJNE A,#0EH,NK5 
+00A2 753004           87                 MOV KEYBUF,#4 
+00A5 0200C4           88                 LJMP DK2
+00A8                  89     NK5:        CJNE A,#0DH,N6 
+*** _________________________________________________^
+*** ERROR #A45 IN 89 (\\PSF\HOME\DOCU~CQ0\MY-TEST\HAPPYBIRTHDAY.ASM, LINE 89): UNDEFINED SYMBOL (PASS-2)
+00AB 753005           90                 MOV KEYBUF,#5 
+00AE 0200C4           91                 LJMP DK2 
+00B1 B40B06           92     NK6:        CJNE A,#0BH,NK7 
+00B4 753006           93                 MOV KEYBUF,#6 
+00B7 0200C4           94                 LJMP DK2 
+00BA B40706           95     NK7:        CJNE A,#07H,NK8 
+00BD 753007           96                 MOV KEYBUF,#7 
+00C0 0200C4           97                 LJMP DK2 
+00C3 00               98     NK8:        NOP 
+00C4 E530             99     DK2:        MOV A,KEYBUF 
+A51 MACRO ASSEMBLER  HAPPYBIRTHDAY                                                        09/30/2015 20:15:29 PAGE     3
+
+00C6 9001E2          100                 MOV DPTR,#TABLE
+00C9 93              101                 MOVC A,@A+DPTR 
+00CA F580            102                 MOV P0,A 
+00CC E530            103                 MOV A,KEYBUF 
+00CE 75F002          104                 MOV B,#2 
+00D1 A4              105                 MUL AB 
+00D2 F533            106                 MOV TEMP,A 
+00D4 9001F2          107                 MOV DPTR,#TABLE1 
+00D7 93              108                 MOVC A,@A+DPTR 
+00D8 F531            109                 MOV STH0,A 
+00DA F58C            110                 MOV TH0,A 
+00DC 0533            111                 INC TEMP 
+00DE E533            112                 MOV A,TEMP 
+00E0 93              113                 MOVC A,@A+DPTR 
+00E1 F532            114                 MOV STL0,A 
+00E3 F58A            115                 MOV TL0,A 
+00E5 D28C            116                 SETB TR0 
+00E7 E5B0            117     DK2A:       MOV A,P3 
+                     118     
+00E9 540F            119                 ANL A,#0FH 
+00EB 640F            120                 XRL A,#0FH
+00ED 70F8            121                 JNZ DK2A 
+00EF C28C            122                 CLR TR0 
+00F1                 123     NOKEY2: 
+00F1 75B0FF          124                 MOV P3,#0FFH 
+00F4 C2B6            125                 CLR P3.6 
+00F6 E5B0            126                 MOV A,P3 
+00F8 540F            127                 ANL A,#0FH 
+00FA 640F            128                 XRL A,#0FH 
+00FC 6061            129                 JZ NOKEY3 
+00FE 1201D0          130                 LCALL DELY10MS 
+0101 E5B0            131                 MOV A,P3 
+0103 540F            132                 ANL A,#0FH 
+0105 640F            133                 XRL A,#0FH 
+0107 6056            134                 JZ NOKEY3 
+0109 E5B0            135                 MOV A,P3 
+010B 540F            136                 ANL A,#0FH 
+010D B40E06          137                 CJNE A,#0EH,NK9 
+0110 753008          138                 MOV KEYBUF,#8 
+0113 020132          139                 LJMP DK3 
+0116 B40D06          140     NK9:        CJNE A,#0DH,NK10 
+0119 753009          141                 MOV KEYBUF,#9 
+011C 020132          142                 LJMP DK3 
+011F B40B06          143     NK10:       CJNE A,#0BH,NK11 
+0122 75300A          144                 MOV KEYBUF,#10 
+0125 020132          145                 LJMP DK3 
+0128 B40706          146     NK11:       CJNE A,#07H,NK12 
+012B 75300B          147                 MOV KEYBUF,#11 
+012E 020132          148                 LJMP DK3 
+0131 00              149     NK12:       NOP 
+0132                 150     DK3: 
+0132 E530            151                 MOV A,KEYBUF 
+0134 9001E2          152                 MOV DPTR,#TABLE 
+0137 93              153                 MOVC A,@A+DPTR 
+0138 F580            154                 MOV P0,A 
+013A E530            155                 MOV A,KEYBUF 
+013C 75F002          156                 MOV B,#2 
+013F A4              157                 MUL AB 
+0140 F533            158                 MOV TEMP,A 
+0142 9001F2          159                 MOV DPTR,#TABLE1 
+0145 93              160                 MOVC A,@A+DPTR 
+0146 F531            161                 MOV STH0,A 
+0148 F58C            162                 MOV TH0,A 
+014A 0533            163                 INC TEMP 
+014C E533            164                 MOV A,TEMP 
+014E 93              165                 MOVC A,@A+DPTR 
+A51 MACRO ASSEMBLER  HAPPYBIRTHDAY                                                        09/30/2015 20:15:29 PAGE     4
+
+014F F532            166                 MOV STL0,A 
+0151 F58A            167                 MOV TL0,A 
+0153 D28C            168                 SETB TR0   
+0155 E5B0            169     DK3A:       MOV A,P3 
+0157 540F            170                 ANL A,#0FH 
+0159 640F            171                 XRL A,#0FH 
+015B 70F8            172                 JNZ DK3A 
+015D C28C            173                 CLR TR0 
+015F                 174     NOKEY3: 
+015F 75B0FF          175                 MOV P3,#0FFH 
+0162 C2B7            176                 CLR P3.7 
+0164 E5B0            177                 MOV A,P3 
+0166 540F            178                 ANL A,#0FH 
+0168 640F            179                 XRL A,#0FH 
+016A 6061            180                 JZ NOKEY4 
+016C 1201D0          181                 LCALL DELY10MS 
+016F E5B0            182                 MOV A,P3 
+0171 540F            183                 ANL A,#0FH 
+0173 640F            184                 XRL A,#0FH 
+0175 6056            185                 JZ NOKEY4 
+0177 E5B0            186                 MOV A,P3 
+0179 540F            187                 ANL A,#0FH 
+017B B40E06          188                 CJNE A,#0EH,NK13 
+017E 75300C          189                 MOV KEYBUF,#12 
+0181 0201A0          190                 LJMP DK4 
+0184 B40D06          191     NK13:       CJNE A,#0DH,NK14 
+0187 75300D          192                 MOV KEYBUF,#13 
+018A 0201A0          193                 LJMP DK4 
+018D B40B06          194     NK14:       CJNE A,#0BH,NK15 
+0190 75300E          195                 MOV KEYBUF,#14 
+0193 0201A0          196                 LJMP DK4 
+0196 B40706          197     NK15:       CJNE A,#07H,NK16 
+0199 75300F          198                 MOV KEYBUF,#15 
+019C 0201A0          199                 LJMP DK4 
+019F 00              200     NK16:       NOP 
+01A0 E530            201     DK4:        MOV A,KEYBUF 
+01A2 9001E2          202                 MOV DPTR,#TABLE 
+01A5 93              203                 MOVC A,@A+DPTR 
+01A6 F580            204                 MOV P0,A 
+01A8 E530            205                 MOV A,KEYBUF 
+01AA 75F002          206                 MOV B,#2 
+01AD A4              207                 MUL AB 
+01AE F533            208                 MOV TEMP,A 
+01B0 9001F2          209                 MOV DPTR,#TABLE1 
+01B3 93              210                 MOVC A,@A+DPTR 
+01B4 F531            211                 MOV STH0,A 
+01B6 F58C            212                 MOV TH0,A 
+01B8 0533            213                 INC TEMP 
+01BA E533            214                 MOV A,TEMP 
+01BC 93              215                 MOVC A,@A+DPTR 
+01BD F532            216                 MOV STL0,A 
+01BF F58A            217                 MOV TL0,A 
+01C1 D28C            218                 SETB TR0 
+01C3 E5B0            219     DK4A:       MOV A,P3 
+01C5 540F            220                 ANL A,#0FH 
+01C7 640F            221                 XRL A,#0FH 
+01C9 70F8            222                 JNZ DK4A 
+01CB C28C            223                 CLR TR0 
+01CD 020015          224     NOKEY4:     LJMP WAIT 
+01D0 7E0A            225     DELY10MS:   MOV R6,#10 
+01D2 7FF8            226     D1:         MOV R7,#248 
+01D4 DFFE            227                 DJNZ R7,$ 
+01D6 DEFA            228                 DJNZ R6,D1 
+01D8 22              229                 RET 
+01D9 85318C          230     INT_T0:     MOV TH0,STH0 
+01DC 85328A          231                 MOV TL0,STL0 
+A51 MACRO ASSEMBLER  HAPPYBIRTHDAY                                                        09/30/2015 20:15:29 PAGE     5
+
+01DF B290            232                 CPL P1.0 
+01E1 32              233                 RETI 
+01E2 3F065B4F        234     TABLE:      DB 3FH,06H,5BH,4FH,66H,6DH,7DH,07H 
+01E6 666D7D07                
+01EA 7F6F777C        235                 DB 7FH,6FH,77H,7CH,39H,5EH,79H,71H 
+01EE 395E7971                
+01F2 FA15            236     TABLE1:     DW 64021,64103,64260,64400  ;L3 L4 L5 L6
+01F4 FA67                    
+01F6 FB04                    
+01F8 FB90                    
+01FA FC0C            237                 DW 64524,64580,64684,64777  ;L7 M1 M2 M3
+01FC FC44                    
+01FE FCAC                    
+0200 FD09                    
+0202 FD34            238                 DW 64820,64898,64968,65030  ;M4 M5 M6 M7 
+0204 FD82                    
+0206 FDC8                    
+0208 FE06                    
+020A FE22            239                 DW 65058,65110,65157,65178  ;H1 H2 H3 H4
+020C FE56                    
+020E FE85                    
+0210 FE9A                    
+                     240                 END 
+A51 MACRO ASSEMBLER  HAPPYBIRTHDAY                                                        09/30/2015 20:15:29 PAGE     6
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+B. . . . . . . . .  D ADDR   00F0H   A   
+D1 . . . . . . . .  C ADDR   01D2H   A   
+DELY10MS . . . . .  C ADDR   01D0H   A   
+DK1. . . . . . . .  C ADDR   0056H   A   
+DK1A . . . . . . .  C ADDR   0079H   A   
+DK2. . . . . . . .  C ADDR   00C4H   A   
+DK2A . . . . . . .  C ADDR   00E7H   A   
+DK3. . . . . . . .  C ADDR   0132H   A   
+DK3A . . . . . . .  C ADDR   0155H   A   
+DK4. . . . . . . .  C ADDR   01A0H   A   
+DK4A . . . . . . .  C ADDR   01C3H   A   
+EA . . . . . . . .  B ADDR   00A8H.7 A   
+ET0. . . . . . . .  B ADDR   00A8H.1 A   
+INT_T0 . . . . . .  C ADDR   01D9H   A   
+KEYBUF . . . . . .  N NUMB   0030H   A   
+N6 . . . . . . . .    ----   -----       
+NK1. . . . . . . .  C ADDR   003AH   A   
+NK10 . . . . . . .  C ADDR   011FH   A   
+NK11 . . . . . . .  C ADDR   0128H   A   
+NK12 . . . . . . .  C ADDR   0131H   A   
+NK13 . . . . . . .  C ADDR   0184H   A   
+NK14 . . . . . . .  C ADDR   018DH   A   
+NK15 . . . . . . .  C ADDR   0196H   A   
+NK16 . . . . . . .  C ADDR   019FH   A   
+NK2. . . . . . . .  C ADDR   0043H   A   
+NK3. . . . . . . .  C ADDR   004CH   A   
+NK4. . . . . . . .  C ADDR   0055H   A   
+NK5. . . . . . . .  C ADDR   00A8H   A   
+NK6. . . . . . . .  C ADDR   00B1H   A   
+NK7. . . . . . . .  C ADDR   00BAH   A   
+NK8. . . . . . . .  C ADDR   00C3H   A   
+NK9. . . . . . . .  C ADDR   0116H   A   
+NOKEY1 . . . . . .  C ADDR   0083H   A   
+NOKEY2 . . . . . .  C ADDR   00F1H   A   
+NOKEY3 . . . . . .  C ADDR   015FH   A   
+NOKEY4 . . . . . .  C ADDR   01CDH   A   
+P0 . . . . . . . .  D ADDR   0080H   A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+P3 . . . . . . . .  D ADDR   00B0H   A   
+START. . . . . . .  C ADDR   000EH   A   
+STH0 . . . . . . .  N NUMB   0031H   A   
+STL0 . . . . . . .  N NUMB   0032H   A   
+TABLE. . . . . . .  C ADDR   01E2H   A   
+TABLE1 . . . . . .  C ADDR   01F2H   A   
+TEMP . . . . . . .  N NUMB   0033H   A   
+TH0. . . . . . . .  D ADDR   008CH   A   
+TL0. . . . . . . .  D ADDR   008AH   A   
+TMOD . . . . . . .  D ADDR   0089H   A   
+TR0. . . . . . . .  B ADDR   0088H.4 A   
+WAIT . . . . . . .  C ADDR   0015H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 18 ERROR(S)

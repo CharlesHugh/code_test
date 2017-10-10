@@ -1,0 +1,575 @@
+A51 MACRO ASSEMBLER  DIANZIQIN                                                            09/27/2015 23:18:54 PAGE     1
+
+
+MACRO ASSEMBLER A51 V6.23
+OBJECT MODULE PLACED IN \\PSF\HOME\DOCU~CQ0\MY-TEST\DIANZIQIN.OBJ
+ASSEMBLER INVOKED BY: C:\COMP51\A51.EXE \\PSF\HOME\DOCU~CQ0\MY-TEST\DIANZIQIN.ASM DB SB
+
+LOC  OBJ            LINE     SOURCE
+
+  0030                 1     KEYBUF      EQU 30H 
+                       2     
+  0031                 3     STH0        EQU 31H 
+                       4     
+  0032                 5     STL0        EQU 32H 
+                       6     
+  0033                 7     TEMP        EQU 33H 
+                       8     
+0000                   9                 ORG 00H 
+                      10     
+0000 02000E           11                 LJMP START 
+                      12     
+000B                  13                 ORG 0BH 
+                      14     
+000B 0201D9           15                 LJMP INT_T0 
+                      16     
+000E 758901           17     START:      MOV TMOD,#01H 
+                      18     
+0011 D2A9             19                 SETB ET0 
+                      20     
+0013 D2AF             21                 SETB EA 
+                      22     
+0015                  23     WAIT:   
+                      24     
+0015 75B0FF           25                 MOV P3,#0FFH 
+                      26     
+0018 C2B4             27                 CLR P3.4 
+                      28     
+001A E5B0             29                 MOV A,P3 
+                      30     
+001C 540F             31                 ANL A,#0FH  
+                      32     
+001E 640F             33                 XRL A,#0FH 
+                      34     
+0020 6061             35                 JZ NOKEY1 
+                      36     
+0022 1201D0           37                 LCALL DELY10MS 
+                      38     
+0025 E5B0             39                 MOV A,P3 
+                      40     
+0027 540F             41                 ANL A,#0FH 
+                      42     
+0029 640F             43                 XRL A,#0FH 
+                      44     
+002B 6056             45                 JZ NOKEY1 
+                      46     
+002D E5B0             47                 MOV A,P3 
+                      48     
+002F 540F             49                 ANL A,#0FH 
+                      50     
+0031 B40E06           51                 CJNE A,#0EH,NK1 
+                      52     
+0034 753000           53                 MOV KEYBUF,#0 
+                      54     
+0037 020056           55                 LJMP DK1 
+                      56     
+003A B40D06           57     NK1:        CJNE A,#0DH,NK2 
+                      58     
+A51 MACRO ASSEMBLER  DIANZIQIN                                                            09/27/2015 23:18:54 PAGE     2
+
+003D 753001           59                 MOV KEYBUF,#1 
+                      60     
+0040 020056           61                 LJMP DK1 
+                      62     
+0043 B40B06           63     NK2:        CJNE A,#0BH,NK3 
+                      64     
+0046 753002           65                 MOV KEYBUF,#2 
+                      66     
+0049 020056           67                 LJMP DK1 
+                      68     
+004C B40706           69     NK3:        CJNE A,#07H,NK4 
+                      70     
+004F 753003           71                 MOV KEYBUF,#3 
+                      72     
+0052 020056           73                 LJMP DK1 
+                      74     
+0055 00               75     NK4:        NOP 
+                      76     
+0056                  77     DK1:    
+                      78     
+0056 E530             79                 MOV A,KEYBUF 
+                      80     
+0058 9001E2           81                 MOV DPTR,#TABLE 
+                      82     
+005B 93               83                 MOVC A,@A+DPTR 
+                      84     
+005C F580             85                 MOV P0,A 
+                      86     
+005E E530             87                 MOV A,KEYBUF 
+                      88     
+0060 75F002           89                 MOV B,#2 
+                      90     
+0063 A4               91                 MUL AB 
+                      92     
+0064 F533             93                 MOV TEMP,A 
+                      94     
+0066 9001F2           95                 MOV DPTR,#TABLE1 
+                      96     
+0069 93               97                 MOVC A,@A+DPTR 
+                      98     
+006A F531             99                 MOV STH0,A 
+                     100     
+006C F58C            101                 MOV TH0,A 
+                     102     
+006E 0533            103                 INC TEMP 
+                     104     
+0070 E533            105                 MOV A,TEMP 
+                     106     
+0072 93              107                 MOVC A,@A+DPTR 
+                     108     
+0073 F532            109                 MOV STL0,A 
+                     110     
+0075 F58A            111                 MOV TL0,A 
+                     112     
+0077 D28C            113                 SETB TR0 
+                     114     
+                     115       
+                     116     
+0079 E5B0            117     DK1A:       MOV A,P3 
+                     118     
+007B 540F            119                 ANL A,#0FH 
+                     120     
+007D 640F            121                 XRL A,#0FH 
+                     122     
+007F 70F8            123                 JNZ DK1A 
+                     124     
+A51 MACRO ASSEMBLER  DIANZIQIN                                                            09/27/2015 23:18:54 PAGE     3
+
+0081 C28C            125                 CLR TR0 
+                     126     
+0083                 127     NOKEY1: 
+                     128     
+0083 75B0FF          129                 MOV P3,#0FFH 
+                     130     
+0086 C2B5            131                 CLR P3.5 
+                     132     
+0088 E5B0            133                 MOV A,P3 
+                     134     
+008A 540F            135                 ANL A,#0FH 
+                     136     
+008C 640F            137                 XRL A,#0FH 
+                     138     
+008E 6061            139                 JZ NOKEY2 
+                     140     
+0090 1201D0          141                 LCALL DELY10MS 
+                     142     
+0093 E5B0            143                 MOV A,P3 
+                     144     
+0095 540F            145                 ANL A,#0FH 
+                     146     
+0097 640F            147                 XRL A,#0FH 
+                     148     
+0099 6056            149                 JZ NOKEY2 
+                     150     
+009B E5B0            151                 MOV A,P3 
+                     152     
+009D 540F            153                 ANL A,#0FH 
+                     154     
+009F B40E06          155                 CJNE A,#0EH,NK5 
+                     156     
+00A2 753004          157                 MOV KEYBUF,#4 
+                     158     
+00A5 0200C4          159                 LJMP DK2 
+                     160     
+00A8 B40D06          161     NK5:        CJNE A,#0DH,NK6 
+                     162     
+00AB 753005          163                 MOV KEYBUF,#5 
+                     164     
+00AE 0200C4          165                 LJMP DK2 
+                     166     
+00B1 B40B06          167     NK6:        CJNE A,#0BH,NK7 
+                     168     
+00B4 753006          169                 MOV KEYBUF,#6 
+                     170     
+00B7 0200C4          171                 LJMP DK2 
+                     172     
+00BA B40706          173     NK7:        CJNE A,#07H,NK8 
+                     174     
+00BD 753007          175                 MOV KEYBUF,#7 
+                     176     
+00C0 0200C4          177                 LJMP DK2 
+                     178     
+00C3 00              179     NK8:        NOP 
+                     180     
+00C4                 181     DK2:    
+                     182     
+00C4 E530            183                 MOV A,KEYBUF 
+                     184     
+00C6 9001E2          185                 MOV DPTR,#TABLE 
+                     186     
+00C9 93              187                 MOVC A,@A+DPTR 
+                     188     
+00CA F580            189                 MOV P0,A 
+                     190     
+A51 MACRO ASSEMBLER  DIANZIQIN                                                            09/27/2015 23:18:54 PAGE     4
+
+00CC E530            191                 MOV A,KEYBUF 
+                     192     
+00CE 75F002          193                 MOV B,#2 
+                     194     
+00D1 A4              195                 MUL AB 
+                     196     
+00D2 F533            197                 MOV TEMP,A 
+                     198     
+00D4 9001F2          199                 MOV DPTR,#TABLE1 
+                     200     
+00D7 93              201                 MOVC A,@A+DPTR 
+                     202     
+00D8 F531            203                 MOV STH0,A 
+                     204     
+00DA F58C            205                 MOV TH0,A 
+                     206     
+00DC 0533            207                 INC TEMP 
+                     208     
+00DE E533            209                 MOV A,TEMP 
+                     210     
+00E0 93              211                 MOVC A,@A+DPTR 
+                     212     
+00E1 F532            213                 MOV STL0,A 
+                     214     
+00E3 F58A            215                 MOV TL0,A 
+                     216     
+00E5 D28C            217                 SETB TR0 
+                     218     
+00E7 E5B0            219     DK2A:       MOV A,P3 
+                     220     
+00E9 540F            221                 ANL A,#0FH 
+                     222     
+00EB 640F            223                 XRL A,#0FH 
+                     224     
+00ED 70F8            225                 JNZ DK2A 
+                     226     
+00EF C28C            227                 CLR TR0 
+                     228     
+00F1                 229     NOKEY2: 
+                     230     
+00F1 75B0FF          231                 MOV P3,#0FFH 
+                     232     
+00F4 C2B6            233                 CLR P3.6 
+                     234     
+00F6 E5B0            235                 MOV A,P3 
+                     236     
+00F8 540F            237                 ANL A,#0FH 
+                     238     
+00FA 640F            239                 XRL A,#0FH 
+                     240     
+00FC 6061            241                 JZ NOKEY3 
+                     242     
+00FE 1201D0          243                 LCALL DELY10MS 
+                     244     
+0101 E5B0            245                 MOV A,P3 
+                     246     
+0103 540F            247                 ANL A,#0FH 
+                     248     
+0105 640F            249                 XRL A,#0FH 
+                     250     
+0107 6056            251                 JZ NOKEY3 
+                     252     
+0109 E5B0            253                 MOV A,P3 
+                     254     
+010B 540F            255                 ANL A,#0FH 
+                     256     
+A51 MACRO ASSEMBLER  DIANZIQIN                                                            09/27/2015 23:18:54 PAGE     5
+
+010D B40E06          257                 CJNE A,#0EH,NK9 
+                     258     
+0110 753008          259                 MOV KEYBUF,#8 
+                     260     
+0113 020132          261                 LJMP DK3 
+                     262     
+0116 B40D06          263     NK9:        CJNE A,#0DH,NK10 
+                     264     
+0119 753009          265                 MOV KEYBUF,#9 
+                     266     
+011C 020132          267                 LJMP DK3 
+                     268     
+011F B40B06          269     NK10:       CJNE A,#0BH,NK11 
+                     270     
+0122 75300A          271                 MOV KEYBUF,#10 
+                     272     
+0125 020132          273                 LJMP DK3 
+                     274     
+0128 B40706          275     NK11:       CJNE A,#07H,NK12 
+                     276     
+012B 75300B          277                 MOV KEYBUF,#11 
+                     278     
+012E 020132          279                 LJMP DK3 
+                     280     
+0131 00              281     NK12:       NOP 
+                     282     
+0132                 283     DK3: 
+                     284     
+0132 E530            285                 MOV A,KEYBUF 
+                     286     
+0134 9001E2          287                 MOV DPTR,#TABLE 
+                     288     
+0137 93              289                 MOVC A,@A+DPTR 
+                     290     
+0138 F580            291                 MOV P0,A 
+                     292     
+013A E530            293                 MOV A,KEYBUF 
+                     294     
+013C 75F002          295                 MOV B,#2 
+                     296     
+013F A4              297                 MUL AB 
+                     298     
+0140 F533            299                 MOV TEMP,A 
+                     300     
+0142 9001F2          301                 MOV DPTR,#TABLE1 
+                     302     
+0145 93              303                 MOVC A,@A+DPTR 
+                     304     
+0146 F531            305                 MOV STH0,A 
+                     306     
+0148 F58C            307                 MOV TH0,A 
+                     308     
+014A 0533            309                 INC TEMP 
+                     310     
+014C E533            311                 MOV A,TEMP 
+                     312     
+014E 93              313                 MOVC A,@A+DPTR 
+                     314     
+014F F532            315                 MOV STL0,A 
+                     316     
+0151 F58A            317                 MOV TL0,A 
+                     318     
+0153 D28C            319                 SETB TR0 
+                     320     
+                     321       
+                     322     
+A51 MACRO ASSEMBLER  DIANZIQIN                                                            09/27/2015 23:18:54 PAGE     6
+
+0155 E5B0            323     DK3A:       MOV A,P3 
+                     324     
+0157 540F            325                 ANL A,#0FH 
+                     326     
+0159 640F            327                 XRL A,#0FH 
+                     328     
+015B 70F8            329                 JNZ DK3A 
+                     330     
+015D C28C            331                 CLR TR0 
+                     332     
+015F                 333     NOKEY3: 
+                     334     
+015F 75B0FF          335                 MOV P3,#0FFH 
+                     336     
+0162 C2B7            337                 CLR P3.7 
+                     338     
+0164 E5B0            339                 MOV A,P3 
+                     340     
+0166 540F            341                 ANL A,#0FH 
+                     342     
+0168 640F            343                 XRL A,#0FH 
+                     344     
+016A 6061            345                 JZ NOKEY4 
+                     346     
+016C 1201D0          347                 LCALL DELY10MS 
+                     348     
+016F E5B0            349                 MOV A,P3 
+                     350     
+0171 540F            351                 ANL A,#0FH 
+                     352     
+0173 640F            353                 XRL A,#0FH 
+                     354     
+0175 6056            355                 JZ NOKEY4 
+                     356     
+0177 E5B0            357                 MOV A,P3 
+                     358     
+0179 540F            359                 ANL A,#0FH 
+                     360     
+017B B40E06          361                 CJNE A,#0EH,NK13 
+                     362     
+017E 75300C          363                 MOV KEYBUF,#12 
+                     364     
+0181 0201A0          365                 LJMP DK4 
+                     366     
+0184 B40D06          367     NK13:       CJNE A,#0DH,NK14 
+                     368     
+0187 75300D          369                 MOV KEYBUF,#13 
+                     370     
+018A 0201A0          371                 LJMP DK4 
+                     372     
+018D B40B06          373     NK14:       CJNE A,#0BH,NK15 
+                     374     
+0190 75300E          375                 MOV KEYBUF,#14 
+                     376     
+0193 0201A0          377                 LJMP DK4 
+                     378     
+0196 B40706          379     NK15:       CJNE A,#07H,NK16 
+                     380     
+0199 75300F          381                 MOV KEYBUF,#15 
+                     382     
+019C 0201A0          383                 LJMP DK4 
+                     384     
+019F 00              385     NK16:       NOP 
+                     386     
+01A0                 387     DK4:    
+                     388     
+A51 MACRO ASSEMBLER  DIANZIQIN                                                            09/27/2015 23:18:54 PAGE     7
+
+01A0 E530            389                 MOV A,KEYBUF 
+                     390     
+01A2 9001E2          391                 MOV DPTR,#TABLE 
+                     392     
+01A5 93              393                 MOVC A,@A+DPTR 
+                     394     
+01A6 F580            395                 MOV P0,A 
+                     396     
+01A8 E530            397                 MOV A,KEYBUF 
+                     398     
+01AA 75F002          399                 MOV B,#2 
+                     400     
+01AD A4              401                 MUL AB 
+                     402     
+01AE F533            403                 MOV TEMP,A 
+                     404     
+01B0 9001F2          405                 MOV DPTR,#TABLE1 
+                     406     
+01B3 93              407                 MOVC A,@A+DPTR 
+                     408     
+01B4 F531            409                 MOV STH0,A 
+                     410     
+01B6 F58C            411                 MOV TH0,A 
+                     412     
+01B8 0533            413                 INC TEMP 
+                     414     
+01BA E533            415                 MOV A,TEMP 
+                     416     
+01BC 93              417                 MOVC A,@A+DPTR 
+                     418     
+01BD F532            419                 MOV STL0,A 
+                     420     
+01BF F58A            421                 MOV TL0,A 
+                     422     
+01C1 D28C            423                 SETB TR0 
+                     424     
+01C3 E5B0            425     DK4A:       MOV A,P3 
+                     426     
+01C5 540F            427                 ANL A,#0FH 
+                     428     
+01C7 640F            429                 XRL A,#0FH 
+                     430     
+01C9 70F8            431                 JNZ DK4A 
+                     432     
+01CB C28C            433                 CLR TR0 
+                     434     
+01CD                 435     NOKEY4: 
+                     436     
+01CD 020015          437                 LJMP WAIT 
+                     438     
+01D0                 439     DELY10MS: 
+                     440     
+01D0 7E0A            441                 MOV R6,#10 
+                     442     
+01D2 7FF8            443     D1:         MOV R7,#248 
+                     444     
+01D4 DFFE            445                 DJNZ R7,$ 
+                     446     
+01D6 DEFA            447                 DJNZ R6,D1 
+                     448     
+01D8 22              449                 RET 
+                     450     
+01D9                 451     INT_T0: 
+                     452     
+01D9 85318C          453                 MOV TH0,STH0 
+                     454     
+A51 MACRO ASSEMBLER  DIANZIQIN                                                            09/27/2015 23:18:54 PAGE     8
+
+01DC 85328A          455                 MOV TL0,STL0 
+                     456     
+01DF B295            457                 CPL P1.5
+                     458     
+01E1 32              459                 RETI 
+                     460     
+01E2 3F065B4F        461     TABLE:      DB 3FH,06H,5BH,4FH,66H,6DH,7DH,07H 
+01E6 666D7D07                
+                     462     
+01EA 7F6F777C        463                 DB 7FH,6FH,77H,7CH,39H,5EH,79H,71H 
+01EE 395E7971                
+                     464     
+                     465       
+                     466     
+01F2 FA15            467     TABLE1:     DW 64021,64103,64260,64400 
+01F4 FA67                    
+01F6 FB04                    
+01F8 FB90                    
+                     468     
+01FA FC0C            469                 DW 64524,64580,64684,64777 
+01FC FC44                    
+01FE FCAC                    
+0200 FD09                    
+                     470     
+0202 FD34            471                 DW 64820,64898,64968,65030 
+0204 FD82                    
+0206 FDC8                    
+0208 FE06                    
+                     472     
+020A FE22            473                 DW 65058,65110,65157,65178 
+020C FE56                    
+020E FE85                    
+0210 FE9A                    
+                     474     
+                     475                 END 
+A51 MACRO ASSEMBLER  DIANZIQIN                                                            09/27/2015 23:18:54 PAGE     9
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+B. . . . . . . . .  D ADDR   00F0H   A   
+D1 . . . . . . . .  C ADDR   01D2H   A   
+DELY10MS . . . . .  C ADDR   01D0H   A   
+DK1. . . . . . . .  C ADDR   0056H   A   
+DK1A . . . . . . .  C ADDR   0079H   A   
+DK2. . . . . . . .  C ADDR   00C4H   A   
+DK2A . . . . . . .  C ADDR   00E7H   A   
+DK3. . . . . . . .  C ADDR   0132H   A   
+DK3A . . . . . . .  C ADDR   0155H   A   
+DK4. . . . . . . .  C ADDR   01A0H   A   
+DK4A . . . . . . .  C ADDR   01C3H   A   
+EA . . . . . . . .  B ADDR   00A8H.7 A   
+ET0. . . . . . . .  B ADDR   00A8H.1 A   
+INT_T0 . . . . . .  C ADDR   01D9H   A   
+KEYBUF . . . . . .  N NUMB   0030H   A   
+NK1. . . . . . . .  C ADDR   003AH   A   
+NK10 . . . . . . .  C ADDR   011FH   A   
+NK11 . . . . . . .  C ADDR   0128H   A   
+NK12 . . . . . . .  C ADDR   0131H   A   
+NK13 . . . . . . .  C ADDR   0184H   A   
+NK14 . . . . . . .  C ADDR   018DH   A   
+NK15 . . . . . . .  C ADDR   0196H   A   
+NK16 . . . . . . .  C ADDR   019FH   A   
+NK2. . . . . . . .  C ADDR   0043H   A   
+NK3. . . . . . . .  C ADDR   004CH   A   
+NK4. . . . . . . .  C ADDR   0055H   A   
+NK5. . . . . . . .  C ADDR   00A8H   A   
+NK6. . . . . . . .  C ADDR   00B1H   A   
+NK7. . . . . . . .  C ADDR   00BAH   A   
+NK8. . . . . . . .  C ADDR   00C3H   A   
+NK9. . . . . . . .  C ADDR   0116H   A   
+NOKEY1 . . . . . .  C ADDR   0083H   A   
+NOKEY2 . . . . . .  C ADDR   00F1H   A   
+NOKEY3 . . . . . .  C ADDR   015FH   A   
+NOKEY4 . . . . . .  C ADDR   01CDH   A   
+P0 . . . . . . . .  D ADDR   0080H   A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+P3 . . . . . . . .  D ADDR   00B0H   A   
+START. . . . . . .  C ADDR   000EH   A   
+STH0 . . . . . . .  N NUMB   0031H   A   
+STL0 . . . . . . .  N NUMB   0032H   A   
+TABLE. . . . . . .  C ADDR   01E2H   A   
+TABLE1 . . . . . .  C ADDR   01F2H   A   
+TEMP . . . . . . .  N NUMB   0033H   A   
+TH0. . . . . . . .  D ADDR   008CH   A   
+TL0. . . . . . . .  D ADDR   008AH   A   
+TMOD . . . . . . .  D ADDR   0089H   A   
+TR0. . . . . . . .  B ADDR   0088H.4 A   
+WAIT . . . . . . .  C ADDR   0015H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

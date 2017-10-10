@@ -1,0 +1,117 @@
+BL51 BANKED LINKER/LOCATER V4.23                                                        09/30/2015  20:48:40  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V4.23, INVOKED BY:
+C:\COMP51\BL51.EXE \\PSF\HOME\DOCU~CQ0\MY-TEST\DIANZHENDONGTAI.OBJ TO \\PSF\HOME\DOCU~CQ0\MY-TEST\DIANZHENDONGTAI RS (25
+>> 6)
+
+
+INPUT MODULES INCLUDED:
+  \\PSF\HOME\DOCU~CQ0\MY-TEST\DIANZHENDONGTAI.OBJ (DIANZHENDONGTAI)
+
+
+LINK MAP OF MODULE:  \\PSF\HOME\DOCU~CQ0\MY-TEST\DIANZHENDONGTAI (DIANZHENDONGTAI)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     00D0H     ABSOLUTE     
+
+
+
+SYMBOL TABLE OF MODULE:  \\PSF\HOME\DOCU~CQ0\MY-TEST\DIANZHENDONGTAI (DIANZHENDONGTAI)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        DIANZHENDONGTAI
+  N:0030H         SYMBOL        DAT0
+  N:0031H         SYMBOL        DAT1
+  N:0032H         SYMBOL        DAT2
+  N:0033H         SYMBOL        DAT3
+  N:0034H         SYMBOL        DAT4
+  N:0035H         SYMBOL        DAT5
+  N:0036H         SYMBOL        DAT6
+  N:0037H         SYMBOL        DAT7
+  C:00CBH         SYMBOL        DELAY
+  D:0080H         SYMBOL        GPIO_DIG
+  C:0040H         SYMBOL        INIT
+  B:00A0H.2       SYMBOL        LSA
+  B:00A0H.3       SYMBOL        LSB
+  B:00A0H.4       SYMBOL        LSC
+  C:0058H         SYMBOL        MAIN
+  D:0080H         SYMBOL        P0
+  D:00A0H         SYMBOL        P2
+  C:0000H         LINE#         2
+  C:0040H         LINE#         22
+  C:0043H         LINE#         23
+  C:0046H         LINE#         24
+  C:0049H         LINE#         25
+  C:004CH         LINE#         26
+  C:004FH         LINE#         27
+  C:0052H         LINE#         28
+  C:0055H         LINE#         29
+  C:0058H         LINE#         31
+  C:005AH         LINE#         32
+  C:005CH         LINE#         33
+BL51 BANKED LINKER/LOCATER V4.23                                                      09/30/2015  20:48:40  PAGE 2
+
+
+  C:005EH         LINE#         34
+  C:0061H         LINE#         35
+  C:0063H         LINE#         36
+  C:0066H         LINE#         37
+  C:0068H         LINE#         38
+  C:006AH         LINE#         39
+  C:006CH         LINE#         40
+  C:006FH         LINE#         41
+  C:0071H         LINE#         42
+  C:0074H         LINE#         43
+  C:0076H         LINE#         44
+  C:0078H         LINE#         45
+  C:007AH         LINE#         46
+  C:007DH         LINE#         47
+  C:007FH         LINE#         48
+  C:0082H         LINE#         49
+  C:0084H         LINE#         50
+  C:0086H         LINE#         51
+  C:0088H         LINE#         52
+  C:008BH         LINE#         53
+  C:008DH         LINE#         54
+  C:0090H         LINE#         55
+  C:0092H         LINE#         56
+  C:0094H         LINE#         57
+  C:0096H         LINE#         58
+  C:0099H         LINE#         59
+  C:009BH         LINE#         60
+  C:009EH         LINE#         61
+  C:00A0H         LINE#         62
+  C:00A2H         LINE#         63
+  C:00A4H         LINE#         64
+  C:00A7H         LINE#         65
+  C:00A9H         LINE#         66
+  C:00ACH         LINE#         67
+  C:00AEH         LINE#         68
+  C:00B0H         LINE#         69
+  C:00B2H         LINE#         70
+  C:00B5H         LINE#         71
+  C:00B7H         LINE#         72
+  C:00BAH         LINE#         73
+  C:00BCH         LINE#         74
+  C:00BEH         LINE#         75
+  C:00C0H         LINE#         76
+  C:00C3H         LINE#         77
+  C:00C5H         LINE#         78
+  C:00C8H         LINE#         79
+  C:00CBH         LINE#         85
+  C:00CDH         LINE#         86
+  C:00CFH         LINE#         87
+  -------         ENDMOD        DIANZHENDONGTAI
+
+Program Size: data=8.0 xdata=0 code=208
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

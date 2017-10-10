@@ -1,0 +1,156 @@
+A51 MACRO ASSEMBLER  WODETIANKONG2                                                        09/28/2015 23:04:05 PAGE     1
+
+
+MACRO ASSEMBLER A51 V6.23
+OBJECT MODULE PLACED IN \\PSF\HOME\DOCU~CQ0\MY-TEST\WODETIANKONG2.OBJ
+ASSEMBLER INVOKED BY: C:\COMP51\A51.EXE \\PSF\HOME\DOCU~CQ0\MY-TEST\WODETIANKONG2.ASM DB SB
+
+LOC  OBJ            LINE     SOURCE
+
+                       1                             ;                ÑÝ×à¡¶Ìì¿ÕÖ®³Ç¡·
+0000                   2             ORG 0000H
+0000 0120              3             AJMP MAIN    ;×ªµ½Ö÷³ÌÐò
+000B                   4             ORG 000BH    ;T0µÄÖÐ¶ÏÈë¿ÚµØÖ·
+000B 020062            5             LJMP IT0P    ;×ªµ½T0µÄÖÐ¶Ï·þÎñ×Ó³ÌÐò
+0020                   6             ORG 0020H    ;Ö÷³ÌÐòÈë¿ÚµØÖ·
+0020 758901            7       MAIN: MOV TMOD,#01H    ;Ñ¡ÔñT0¹¤×÷ÔÚ·½Ê½1
+0023 75A882            8             MOV IE,#82H      ;ÔÊÐíT0ÖÐ¶Ï
+0026 753000            9      START: MOV 30H,#00H     ;È¡Æ×Ö¸Õë³õÊ¼»¯£¨ÕâÀïÉè30HÎªÈ¡Æ×Ö¸Õë£©
+0029 E530             10       LOOP: MOV A,30H        ;½«È¡Æ×Ö¸Õë×°ÈëA
+002B 900092           11             MOV DPTR,#TAB2   ;µ½TAB2´¦£¬È¡ÀÖÆ×Âë
+002E 93               12             MOVC A,@A+DPTR   ;È¡ÀÖÆ×Âë
+002F FA               13             MOV R2,A     ;½«È¡µ½µÄÀÖÆ×ÂëÔÝ´æÓÚR2
+0030 602B             14             JZ END0      ;ÅÐ¶ÏÈ¡µ½µÄÊÇ·ñÎª½áÊøÂë00H
+0032 540F             15             ANL A,#0FH   ;È¡µÍ4Î»£¨½ÚÅÄÂë£©
+0034 FB               16             MOV R3,A         ;½«½ÚÅÄÂë´æÈëR3
+0035 EA               17             MOV A,R2         ;½«È¡µ½µÄÀÖÆ×ÂëÖØ×°ÈëAÖÐ
+0036 54F0             18             ANL A,#0F0H  ;È¡¸ß4Î»£¨Òô·ûÂë£©
+0038 7004             19             JNZ SING         ;ÅÐ¶ÏÈ¡µ½µÄÒô·ûÂëÊÇ·ñÎª0£¨ÐÝÖ¹·û£©
+003A C28C             20             CLR TR0          ;Í£Ö¹T0£¬²»·¢Òô
+003C 8015             21             SJMP NEXT    ;×ªÖÁÑÓÊ±×Ó³ÌÐò
+003E C4               22       SING: SWAP A    ;¸ßµÍÎ»»¥»»
+003F 14               23             DEC A     ;È¡µ½µÄÒô·ûÂë¼õ1
+0040 23               24             RL A      ;AÖÐÊÖµ³Ë2
+0041 FC               25             MOV R4,A  ;½«AÖÐÊÖµÔÝ´æÓÚR4
+0042 900078           26             MOV DPTR,#TAB1  ;µ½TAB1´¦È¡¼òÆ×Âë£¨¼ÆÊ³õÖµ£©
+0045 93               27             MOVC A,@A+DPTR  ;È¡¸ßÎ»×Ö½Ú
+0046 F58C             28             MOV TH0,A   ;½«È¡µ½µÄ¸ßÎ»×Ö½Ú×°ÈëTH0
+0048 F521             29             MOV 21H,A       ;½«È¡µ½µÄ¸ßÎ»×Ö½Ú´æÈë21Hµ¥Ôª
+004A EC               30             MOV A,R4        ;½«R4ÖÐµÄÊÖµÖØ×°ÈëAÖÐ
+004B A3               31             INC DPTR        ;DPTRÔö1
+004C 93               32             MOVC A,@A+DPTR  ;È¡µÍÎ»×Ö½Ú
+004D F58A             33             MOV TL0,A       ;½«È¡µ½µÄµÍÎ»×Ö½Ú×°ÈëTL0
+004F F520             34             MOV 20H,A       ;½«È¡µ½µÄµÍÎ»×Ö½Ú´æÈë20Hµ¥Ôª
+0051 D28C             35             SETB TR0        ;Æô¶¯T0
+0053 12006B           36       NEXT: LCALL DELAY   ;½ÚÅÄÑÓÊ±
+0056 DBFB             37             DJNZ R3,NEXT
+0058 0530             38             INC 30H          ;È¡Æ×Ö¸ÕëÔö1
+005A 020029           39             LJMP LOOP        ;È¡ÏÂÒ»¸öÀÖÆ×Âë
+005D C28C             40       END0: CLR TR0          ;Í£Ö¹T0
+005F 020026           41             LJMP START       ;ÖØ¸´Ñ­»·²¥·Å
+0062 85208A           42       IT0P: MOV TL0,20H  ;¸øT0ÖØ×°³õÖµ
+0065 85218C           43             MOV TH0,21H
+0068 B295             44             CPL P1.5         ;½«P1.0È¡·´£¬ÒÔ²úÉúÒôÆµÂö³å
+006A 32               45             RETI
+006B 7F02             46      DELAY: MOV R7,#02   ;1/4½ÚÅÄµÄÑÓÊ±×Ó³ÌÐò125ms£¨4/4ÅÄµÄÇú×Ó£©
+006D 7E7D             47     DELAY1: MOV R6,#125
+006F 7DF8             48     DELAY2: MOV R5,#248
+0071 DDFE             49             DJNZ R5,$
+0073 DEFA             50             DJNZ R6,DELAY2
+0075 DFF6             51             DJNZ R7,DELAY1
+0077 22               52             RET
+0078                  53       TAB1:    ;¼òÆ×Âë±í
+0078 FD09             54             DW 64777,64820,64860,64898,64934  ;M3 M4 M#4 M5 M#5
+007A FD34                    
+007C FD5C                    
+007E FD82                    
+0080 FDA6                    
+A51 MACRO ASSEMBLER  WODETIANKONG2                                                        09/28/2015 23:04:05 PAGE     2
+
+0082 FDC8             55             DW 64968,65030,65058,65110,65157  ;M6 M7 H1  H2 H3
+0084 FE06                    
+0086 FE22                    
+0088 FE56                    
+008A FE85                    
+008C FE9A             56             DW 65178,65217,65252              ;H4 H5 H6
+008E FEC1                    
+0090 FEE4                    
+                      57          ;¸èÇú¡¶Ìì¿ÕÖ®³Ç¡·µÄÀÖÆ×
+0092                  58       TAB2:
+0092 0C021822         59             DB 0CH,02H,18H,22H,12H,62H,12H,26H,02H,28H,12H,22H,42H,22H,12H,72H,12H,02H,61H,71H
+0096 12621226                
+009A 02281222                
+009E 42221272                
+00A2 12026171                
+00A6                  60             DB 
+                      61     
+00A6 0C627286         62             DB 0CH,62H,72H,86H,72H,84H,0A4H,7CH
+00AA 7284A47C                
+00AE 14664264         63             DB 14H,66H,42H,64H,84H,8H,04H
+00B2 840804                  
+00B5 14261224         64             DB 14H,26H,12H,24H,84H,18H,02H            ;µÚÒ»ÐÐ
+00B9 841802                  
+00BC 86760274         65             DB 86H,76H,2H,74H,78H,04H
+00C0 7804                    
+00C2 62728672         66             DB 62H,72H,86H,72H,84H,0A4H,78H,04H
+00C6 84A47804                
+00CA 14664264         67             DB 14H,66H,42H,64H,84H,4CH,02H            ;µÚ¶þÐÐ
+00CE 844C02                  
+00D1 12248276         68             DB 12H,24H,82H,76H,84H,94H,0A2H,86H,04H
+00D5 8494A286                
+00D9 04                      
+00DA 82726474         69             DB 82H,72H,64H,74H,44H,68H,04H
+00DE 446804                  
+00E1 8292A692         70             DB 82H,92H,0A6H,92H,0A4H,0C4H,98H,04H               ;µÚÈÐÐ
+00E5 A4C49804                
+00E9 44867284         71             DB 44H,86H,72H,84H,0ACH,08H
+00ED AC08                    
+00EF 62728474         72             DB 62H,72H,84H,74H,94H,86H,46H,04H
+00F3 94864604                
+00F7 B4A49484         73             DB 0B4H,0A4H,94H,84H,0A8H,08H          ;µÚËÄÐÐ
+00FB A808                    
+00FD A804A4D4         74             DB 0A8H,04H,0A4H,0D4H,04H
+0101 04                      
+0102 C8A29288         75             DB 0C8H,0A2H,92H,88H,02H
+0106 02                      
+0107 82948296         76             DB 82H,94H,82H,96H,0C4H,0A8H,04H     ;µÚÎåÐÐ
+010B C4A804                  
+010E A4D8C8A2         77             DB 0A4H,0D8H,0C8H,0A2H,92H,88H,02H
+0112 928802                  
+0115 82948296         78             DB 82H,94H,82H,96H,74H,68H,04H
+0119 746804                  
+011C 62726400         79             DB 62H,72H,64H,0H        ;µÚÁùÐÐ
+0120 00               80             DB 00H
+                      81             END
+A51 MACRO ASSEMBLER  WODETIANKONG2                                                        09/28/2015 23:04:05 PAGE     3
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+DELAY. . . . . . .  C ADDR   006BH   A   
+DELAY1 . . . . . .  C ADDR   006DH   A   
+DELAY2 . . . . . .  C ADDR   006FH   A   
+END0 . . . . . . .  C ADDR   005DH   A   
+IE . . . . . . . .  D ADDR   00A8H   A   
+IT0P . . . . . . .  C ADDR   0062H   A   
+LOOP . . . . . . .  C ADDR   0029H   A   
+MAIN . . . . . . .  C ADDR   0020H   A   
+NEXT . . . . . . .  C ADDR   0053H   A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+SING . . . . . . .  C ADDR   003EH   A   
+START. . . . . . .  C ADDR   0026H   A   
+TAB1 . . . . . . .  C ADDR   0078H   A   
+TAB2 . . . . . . .  C ADDR   0092H   A   
+TH0. . . . . . . .  D ADDR   008CH   A   
+TL0. . . . . . . .  D ADDR   008AH   A   
+TMOD . . . . . . .  D ADDR   0089H   A   
+TR0. . . . . . . .  B ADDR   0088H.4 A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

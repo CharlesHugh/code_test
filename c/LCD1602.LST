@@ -1,0 +1,166 @@
+A51 MACRO ASSEMBLER  LCD1602                                                              09/29/2015 20:17:33 PAGE     1
+
+
+MACRO ASSEMBLER A51 V6.23
+OBJECT MODULE PLACED IN \\PSF\HOME\DOCU~CQ0\MY-TEST\LCD1602.OBJ
+ASSEMBLER INVOKED BY: C:\COMP51\A51.EXE \\PSF\HOME\DOCU~CQ0\MY-TEST\LCD1602.ASM DB SB
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1             ORG     000H
+0000 02003E            2             LJMP    INIT
+0030                   3             ORG     0030H
+0030 50656368          4             DB "P","e","c","h","i","n"," ","S","c","i","e","n","c","e"      
+0034 696E2053                
+0038 6369656E                
+003C 6365                    
+  00A7                 5             LCDE    EQU     P2.7
+  00A5                 6             RW              EQU     P2.5
+  00A6                 7             RS              EQU     P2.6
+  0080                 8             GPIO_LCD EQU    P0
+                       9     
+                      10     
+003E                  11     INIT:
+003E 119D             12             ACALL   LCD1602_Init ;≥ı ºªØ1602
+0040                  13     MAIN:
+0040 7F81             14             MOV     R7,#081H         ;…Ë÷√–¥÷∏’Î
+0042 11B2             15             ACALL   LCD_WriteCom
+0044 7400             16             MOV     A,#00H          ;“™∂¡»°µ⁄“ª◊÷ƒ∏
+0046 900030           17             MOV     DPTR,#0030H
+0049 93               18             MOVC    A,@A+DPTR       ;∂¡»°°∞P°±
+004A FF               19             MOV     R7,A            ;∏¯∫Ø ¥´µ›“ª∏ˆ æ›
+004B 11C3             20             ACALL   LCD_WriteData
+004D 7401             21             MOV     A,#01H
+004F 93               22             MOVC    A,@A+DPTR
+0050 FF               23             MOV     R7,A
+0051 11C3             24             ACALL   LCD_WriteData
+0053 7402             25             MOV     A,#02H
+0055 93               26             MOVC    A,@A+DPTR
+0056 FF               27             MOV     R7,A
+0057 11C3             28             ACALL   LCD_WriteData
+0059 7403             29             MOV     A,#03H
+005B 93               30             MOVC    A,@A+DPTR
+005C FF               31             MOV     R7,A
+005D 11C3             32             ACALL   LCD_WriteData
+005F 7404             33             MOV     A,#04H
+0061 93               34             MOVC    A,@A+DPTR
+0062 FF               35             MOV     R7,A
+0063 11C3             36             ACALL   LCD_WriteData
+0065 7405             37             MOV     A,#05H
+0067 93               38             MOVC    A,@A+DPTR
+0068 FF               39             MOV     R7,A
+0069 11C3             40             ACALL   LCD_WriteData
+006B 7406             41             MOV     A,#06H
+006D 93               42             MOVC    A,@A+DPTR
+006E FF               43             MOV     R7,A
+006F 11C3             44             ACALL   LCD_WriteData
+0071 7407             45             MOV     A,#07H
+0073 93               46             MOVC    A,@A+DPTR
+0074 FF               47             MOV     R7,A
+0075 11C3             48             ACALL   LCD_WriteData
+0077 7408             49             MOV     A,#08H
+0079 93               50             MOVC    A,@A+DPTR
+007A FF               51             MOV     R7,A
+007B 11C3             52             ACALL   LCD_WriteData
+007D 7409             53             MOV     A,#09H
+007F 93               54             MOVC    A,@A+DPTR
+0080 FF               55             MOV     R7,A
+A51 MACRO ASSEMBLER  LCD1602                                                              09/29/2015 20:17:33 PAGE     2
+
+0081 11C3             56             ACALL   LCD_WriteData
+0083 740A             57             MOV     A,#00AH
+0085 93               58             MOVC    A,@A+DPTR
+0086 FF               59             MOV     R7,A
+0087 11C3             60             ACALL   LCD_WriteData
+0089 740B             61             MOV     A,#0BH
+008B 93               62             MOVC    A,@A+DPTR
+008C FF               63             MOV     R7,A
+008D 11C3             64             ACALL   LCD_WriteData
+008F 740C             65             MOV     A,#0CH
+0091 93               66             MOVC    A,@A+DPTR
+0092 FF               67             MOV     R7,A
+0093 11C3             68             ACALL   LCD_WriteData
+0095 740D             69             MOV     A,#0DH
+0097 93               70             MOVC    A,@A+DPTR
+0098 FF               71             MOV     R7,A
+0099 11C3             72             ACALL   LCD_WriteData
+009B 019B             73             AJMP    $                       ;‘≠µÿÃ¯◊™
+                      74     ;*********************;
+                      75     ; 1602≥ı ºªØ≥Ã–Ú          £ª
+                      76     ;*********************;
+009D                  77     LCD1602_Init:   
+009D 7F38             78             MOV     R7,#038H        ;¥´µ›∏¯LCD_WriteCom∫Ø µƒ÷µ∑≈‘⁄R7
+009F 11B2             79             ACALL   LCD_WriteCom;…Ë÷√œ‘ æƒ£ Ω
+00A1 7F0C             80             MOV     R7,#00CH        ;…Ë÷√œ‘ æø™£¨π‚±Íπÿ±’°£
+00A3 11B2             81             ACALL   LCD_WriteCom
+00A5 7F06             82             MOV     R7,#006H        ;…Ë÷√µÿ÷∑÷∏’Î–¥∫Ûº”1£¨∂¯«“’˚∆¡≤ª“∆∂Ø
+00A7 11B2             83             ACALL   LCD_WriteCom
+00A9 7F01             84             MOV     R7,#001H        ;œ‘ æ«Â∆¡
+00AB 11B2             85             ACALL   LCD_WriteCom
+00AD 7F81             86             MOV     R7,#081H        ;…Ë÷√∆ º÷∏’Î
+00AF 11B2             87             ACALL   LCD_WriteCom
+00B1 22               88             RET                                     ;◊”∫Ø ∑µªÿ
+                      89     ;*********************;
+                      90     ; 1602–¥√¸¡Ó≥Ã–Ú          £ª
+                      91     ;*********************;
+00B2                  92     LCD_WriteCom:             ;”√R7Ω” ’¥´µ›“ª∏ˆ8Œª æ›
+00B2 C2A7             93             CLR     LCDE
+00B4 C2A6             94             CLR     RS
+00B6 C2A5             95             CLR     RW
+00B8 8F80             96             MOV     GPIO_LCD,R7
+00BA 11D4             97             ACALL   DELAY
+00BC D2A7             98             SETB    LCDE
+00BE 11D4             99             ACALL   DELAY
+00C0 C2A7            100             CLR     LCDE
+00C2 22              101             RET
+                     102     ;*********************;
+                     103     ; 1602–¥ æ›≥Ã–Ú   £ª
+                     104     ;*********************;
+00C3                 105     LCD_WriteData:            ;”√R7Ω” ’¥´µ›“ª∏ˆ8Œª æ›
+00C3 C2A7            106             CLR     LCDE
+00C5 D2A6            107             SETB    RS
+00C7 C2A5            108             CLR     RW
+00C9 8F80            109             MOV     GPIO_LCD,R7
+00CB 11D4            110             ACALL   DELAY
+00CD D2A7            111             SETB    LCDE
+00CF 11D4            112             ACALL   DELAY
+00D1 C2A7            113             CLR     LCDE
+00D3 22              114             RET
+                     115     ;*************;
+                     116     ; —” ±≥Ã–Ú        £ª
+                     117     ;*************;
+00D4                 118     DELAY:
+00D4 7EFF            119             MOV     R6,#0FFH
+00D6 DEFE            120             DJNZ    R6,$
+00D8 22              121             RET
+A51 MACRO ASSEMBLER  LCD1602                                                              09/29/2015 20:17:33 PAGE     3
+
+                     122     
+                     123     END
+                                     
+A51 MACRO ASSEMBLER  LCD1602                                                              09/29/2015 20:17:33 PAGE     4
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+DELAY. . . . . . .  C ADDR   00D4H   A   
+GPIO_LCD . . . . .  D ADDR   0080H   A   
+INIT . . . . . . .  C ADDR   003EH   A   
+LCD1602_INIT . . .  C ADDR   009DH   A   
+LCDE . . . . . . .  B ADDR   00A0H.7 A   
+LCD_WRITECOM . . .  C ADDR   00B2H   A   
+LCD_WRITEDATA. . .  C ADDR   00C3H   A   
+MAIN . . . . . . .  C ADDR   0040H   A   
+P0 . . . . . . . .  D ADDR   0080H   A   
+P2 . . . . . . . .  D ADDR   00A0H   A   
+RS . . . . . . . .  B ADDR   00A0H.6 A   
+RW . . . . . . . .  B ADDR   00A0H.5 A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

@@ -1,0 +1,186 @@
+BL51 BANKED LINKER/LOCATER V4.23                                                        10/01/2015  20:42:07  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V4.23, INVOKED BY:
+C:\COMP51\BL51.EXE \\PSF\HOME\DOCU~CQ0\MY-TEST\JIANYIDIANZIQIN.OBJ TO \\PSF\HOME\DOCU~CQ0\MY-TEST\JIANYIDIANZIQIN RS (25
+>> 6)
+
+
+INPUT MODULES INCLUDED:
+  \\PSF\HOME\DOCU~CQ0\MY-TEST\JIANYIDIANZIQIN.OBJ (JIANYIDIANZIQIN)
+
+
+LINK MAP OF MODULE:  \\PSF\HOME\DOCU~CQ0\MY-TEST\JIANYIDIANZIQIN (JIANYIDIANZIQIN)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     01DAH     ABSOLUTE     
+
+
+
+SYMBOL TABLE OF MODULE:  \\PSF\HOME\DOCU~CQ0\MY-TEST\JIANYIDIANZIQIN (JIANYIDIANZIQIN)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        JIANYIDIANZIQIN
+  D:00E0H         SYMBOL        ACC
+  D:00F0H         SYMBOL        B
+  B:0090H.5       SYMBOL        BUZZER
+  C:01D8H         SYMBOL        DELAY
+  C:0135H         SYMBOL        DEMO
+  C:0138H         SYMBOL        DEMO_1
+  C:0142H         SYMBOL        DEMO_RET
+  B:0090H.0       SYMBOL        K1
+  B:0090H.1       SYMBOL        K2
+  B:0090H.2       SYMBOL        K3
+  B:0090H.3       SYMBOL        K4
+  B:0090H.4       SYMBOL        K5
+  B:0090H.7       SYMBOL        K6
+  B:0090H.6       SYMBOL        K7
+  N:0011H         SYMBOL        M1
+  N:0010H         SYMBOL        M2
+  N:000FH         SYMBOL        M3
+  N:000EH         SYMBOL        M4
+  N:000DH         SYMBOL        M5
+  N:000CH         SYMBOL        M6
+  N:000BH         SYMBOL        M7
+  C:0103H         SYMBOL        MAIN
+  C:0109H         SYMBOL        MAIN_1
+  C:010FH         SYMBOL        MAIN_2
+  C:0115H         SYMBOL        MAIN_3
+  C:011BH         SYMBOL        MAIN_4
+  C:0121H         SYMBOL        MAIN_5
+  C:0127H         SYMBOL        MAIN_6
+  C:012DH         SYMBOL        MAIN_7
+BL51 BANKED LINKER/LOCATER V4.23                                                      10/01/2015  20:42:07  PAGE 2
+
+
+  C:0133H         SYMBOL        MAIN_73
+  C:0143H         SYMBOL        MUSIC
+  C:018DH         SYMBOL        MUSICALSCALE
+  C:018EH         SYMBOL        MUSICALSCALE1
+  C:0197H         SYMBOL        MUSICALSCALE2
+  D:0090H         SYMBOL        P1
+  C:01A0H         SYMBOL        SOUND1
+  C:01A2H         SYMBOL        SOUND1_1
+  C:01A8H         SYMBOL        SOUND2
+  C:01AAH         SYMBOL        SOUND2_1
+  C:01B0H         SYMBOL        SOUND3
+  C:01B2H         SYMBOL        SOUND3_1
+  C:01B8H         SYMBOL        SOUND4
+  C:01BAH         SYMBOL        SOUND4_1
+  C:01C0H         SYMBOL        SOUND5
+  C:01C2H         SYMBOL        SOUND5_1
+  C:01C8H         SYMBOL        SOUND6
+  C:01CAH         SYMBOL        SOUND6_1
+  C:01D0H         SYMBOL        SOUND7
+  C:01D2H         SYMBOL        SOUND7_1
+  C:016AH         SYMBOL        SOUNDMCU
+  C:0170H         SYMBOL        SOUNDMCU_0
+  C:0172H         SYMBOL        SOUNDMCU_1
+  D:0081H         SYMBOL        SP
+  C:0100H         SYMBOL        START
+  C:017BH         SYMBOL        TIME
+  C:018AH         SYMBOL        TIME_1
+  C:0000H         LINE#         24
+  C:0100H         LINE#         27
+  C:0103H         LINE#         28
+  C:0106H         LINE#         29
+  C:0109H         LINE#         30
+  C:010CH         LINE#         31
+  C:010FH         LINE#         32
+  C:0112H         LINE#         33
+  C:0115H         LINE#         34
+  C:0118H         LINE#         35
+  C:011BH         LINE#         36
+  C:011EH         LINE#         37
+  C:0121H         LINE#         38
+  C:0124H         LINE#         39
+  C:0127H         LINE#         40
+  C:012AH         LINE#         41
+  C:012DH         LINE#         42
+  C:0130H         LINE#         43
+  C:0133H         LINE#         44
+  C:0135H         LINE#         47
+  C:0138H         LINE#         48
+  C:0139H         LINE#         49
+  C:013AH         LINE#         50
+  C:013BH         LINE#         51
+  C:013DH         LINE#         52
+  C:0140H         LINE#         53
+  C:0142H         LINE#         54
+  C:016AH         LINE#         62
+  C:016CH         LINE#         63
+  C:016DH         LINE#         64
+BL51 BANKED LINKER/LOCATER V4.23                                                      10/01/2015  20:42:07  PAGE 3
+
+
+  C:016FH         LINE#         65
+  C:0170H         LINE#         66
+  C:0172H         LINE#         67
+  C:0174H         LINE#         68
+  C:0176H         LINE#         69
+  C:0178H         LINE#         70
+  C:017AH         LINE#         71
+  C:017BH         LINE#         73
+  C:017EH         LINE#         74
+  C:0180H         LINE#         75
+  C:0181H         LINE#         76
+  C:0183H         LINE#         77
+  C:0186H         LINE#         78
+  C:0188H         LINE#         79
+  C:018AH         LINE#         80
+  C:018CH         LINE#         81
+  C:018DH         LINE#         83
+  C:018EH         LINE#         84
+  C:0190H         LINE#         85
+  C:0193H         LINE#         86
+  C:0196H         LINE#         87
+  C:0197H         LINE#         88
+  C:0199H         LINE#         89
+  C:019CH         LINE#         90
+  C:019FH         LINE#         91
+  C:01A0H         LINE#         93
+  C:01A2H         LINE#         94
+  C:01A4H         LINE#         95
+  C:01A7H         LINE#         96
+  C:01A8H         LINE#         98
+  C:01AAH         LINE#         99
+  C:01ACH         LINE#         100
+  C:01AFH         LINE#         101
+  C:01B0H         LINE#         103
+  C:01B2H         LINE#         104
+  C:01B4H         LINE#         105
+  C:01B7H         LINE#         106
+  C:01B8H         LINE#         108
+  C:01BAH         LINE#         109
+  C:01BCH         LINE#         110
+  C:01BFH         LINE#         111
+  C:01C0H         LINE#         113
+  C:01C2H         LINE#         114
+  C:01C4H         LINE#         115
+  C:01C7H         LINE#         116
+  C:01C8H         LINE#         118
+  C:01CAH         LINE#         119
+  C:01CCH         LINE#         120
+  C:01CFH         LINE#         121
+  C:01D0H         LINE#         123
+  C:01D2H         LINE#         124
+  C:01D4H         LINE#         125
+  C:01D7H         LINE#         126
+  C:01D8H         LINE#         128
+  C:01D9H         LINE#         129
+  -------         ENDMOD        JIANYIDIANZIQIN
+
+BL51 BANKED LINKER/LOCATER V4.23                                                      10/01/2015  20:42:07  PAGE 4
+
+
+Program Size: data=8.0 xdata=0 code=474
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)
